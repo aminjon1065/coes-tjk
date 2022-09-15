@@ -5,6 +5,7 @@ import Categories from "../../Screens/categories";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import About from "../../Screens/about";
 import Navbar from "../navbar";
+import Glavnoe from "../../Screens/glavnoe";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -16,6 +17,8 @@ const Index = ({navigation}) => {
             <Drawer.Navigator screenOptions={{
                 headerShown: false
             }}>
+
+                <Drawer.Screen name="Главная" component={Glavnoe}/>
                 <Drawer.Screen name="Main" component={Main}/>
                 <Drawer.Screen name="Categories" component={Categories}/>
                 <Drawer.Screen name="About" component={About}/>

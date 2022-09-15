@@ -13,9 +13,9 @@ const Index = ({navigation}) => {
                 textColor={"white"}
                 onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
             >
-               <Text style={styles.hamburger}>
-                   <Icon name={"menu"} size={26} color={"white"}/>
-               </Text>
+                <Text style={styles.hamburger}>
+                    <Icon name={"menu"} size={26} color={"white"}/>
+                </Text>
             </Button>
             <TouchableOpacity onPress={() => Linking.openURL("https://khf.tj")}>
                 <Image source={logo} style={styles.logo}/>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         height: 50,
         resizeMode: 'contain',
     },
-    hamburger:{
-        alignItems:"center"
+    hamburger: {
+        alignItems: "center"
     }
 })
