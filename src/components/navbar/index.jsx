@@ -1,12 +1,54 @@
-import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import logo from './../../assets/images/logo.png'
-import {Button} from "react-native-paper";
+import {Button, FAB} from "react-native-paper";
 import {Linking} from 'react-native'
 import {DrawerActions} from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
+import * as Location from 'expo-location';
+import axios from "axios";
+import Weather from "../weather";
+import Number from "../number";
 
 const Index = ({navigation}) => {
+    const [locationDevice, setLocationDevice] = useState({});
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [weather, setWeather] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+
+    const API_KEY = 'b09b579f44c76f6b427d548fdcfccdfe';
+    useEffect(() => {
+
+        const getLocation = async () => {
+            let {status} = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Не разрешено!');
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            setLocationDevice(location.coords);
+            getWeather(location.coords.latitude, location.coords.longitude)
+        };
+        const getWeather = async (latitude, longitude) => {
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
+                const json = await response.json();
+                console.log(json.main.temp)
+                setWeather(json)
+                setLoading(false);
+
+            } catch (error) {
+                setErrorMsg(error)
+                setLoading(false);
+
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        getLocation()
+
+    }, []);
     return (
         <View style={styles.navbar}>
             <Button
@@ -20,9 +62,16 @@ const Index = ({navigation}) => {
             <TouchableOpacity onPress={() => Linking.openURL("https://khf.tj")}>
                 <Image source={logo} style={styles.logo}/>
             </TouchableOpacity>
-            <Button mode={"text"} textColor={"white"} icon={"phone"}
-                    onPress={() => Linking.openURL(`tel:${112}`)}>112</Button>
-            <StatusBar/>
+            <View style={styles.weatherContainer}>
+                {
+                    isLoading
+                        ?
+                        <ActivityIndicator/>
+                        :
+                        <Weather temp={weather} error={errorMsg}/>
+                }
+            </View>
+            <StatusBar animated={true} backgroundColor="#3949ab"  barStyle="light-content" />
         </View>
     );
 };
@@ -57,5 +106,5 @@ const styles = StyleSheet.create({
     },
     hamburger: {
         alignItems: "center"
-    }
+    },
 })
