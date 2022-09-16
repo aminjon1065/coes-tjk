@@ -33,7 +33,6 @@ const Index = ({navigation}) => {
             try {
                 const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
                 const json = await response.json();
-                console.log(json.main.temp)
                 setWeather(json)
                 setLoading(false);
 
@@ -71,7 +70,7 @@ const Index = ({navigation}) => {
                         <Weather temp={weather} error={errorMsg}/>
                 }
             </View>
-            <StatusBar animated={true} backgroundColor="#3949ab"  barStyle="light-content" />
+            <StatusBar animated={true} backgroundColor="#3949ab" barStyle="light-content"/>
         </View>
     );
 };
@@ -107,4 +106,7 @@ const styles = StyleSheet.create({
     hamburger: {
         alignItems: "center"
     },
+    weatherContainer: {
+        padding: 15
+    }
 })
