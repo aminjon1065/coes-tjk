@@ -18,7 +18,6 @@ const Index = ({navigation}) => {
 
     const API_KEY = 'b09b579f44c76f6b427d548fdcfccdfe';
     useEffect(() => {
-
         const getLocation = async () => {
             let {status} = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
@@ -35,18 +34,14 @@ const Index = ({navigation}) => {
                 const json = await response.json();
                 setWeather(json)
                 setLoading(false);
-
             } catch (error) {
                 setErrorMsg(error)
                 setLoading(false);
-
             } finally {
                 setLoading(false);
             }
         }
-
         getLocation()
-
     }, []);
     return (
         <View style={styles.navbar}>
@@ -70,7 +65,8 @@ const Index = ({navigation}) => {
                         <Weather temp={weather} error={errorMsg}/>
                 }
             </View>
-            <StatusBar animated={true} backgroundColor="#3949ab" barStyle="light-content"/>
+            {/*<StatusBar animated={true} backgroundColor="#3949ab" barStyle="light-content"/>*/}
+            <StatusBar hidden={true}/>
         </View>
     );
 };
@@ -93,7 +89,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.27,
         shadowRadius: 4.65,
-        elevation: 9,
+        elevation: 50,
     },
     text: {
         color: "white",
