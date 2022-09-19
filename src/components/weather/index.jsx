@@ -37,8 +37,6 @@ const Index = ({temp, error}) => {
         Ash:{
             iconName:"weather-sunset"
         }
-
-
     }]
     let text = 'Загрузка..';
     if (error) {
