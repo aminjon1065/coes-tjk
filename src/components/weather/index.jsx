@@ -1,33 +1,35 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Index = ({temp, error}) => {
-    const conditions = ["Thunderstorm", "Drizzle", "Rain", "Snow", "Mist", "Smoke", "Haze", "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado", "Clear", "Clouds"]
-    const weatherOption = [{
+const Index = ({error, condition, temperature}) => {
+    const weatherOption = {
         Thunderstorm: {
-            iconName: "thunderstorm"
+            iconName: "weather-partly-lightning"
+        },
+        Clear: {
+            iconName: "white-balance-sunny"
         },
         Drizzle: {
-            iconName: "weather-fog"
+            iconName: "weather-pouring"
         },
         Rain: {
-            iconName: "rainy"
+            iconName: "weather-rainy"
         },
         Snow: {
-            iconName: "snow"
+            iconName: "weather-snowy"
         },
         Mist: {
             iconName: "weather-partly-cloudy"
         },
         Smoke: {
-            iconName: "smoke"
+            iconName: "weather-cloudy"
         },
         Haze: {
-            iconName: "day-haze"
+            iconName: "weather-partly-cloudy"
         },
         Dust: {
-            iconName: "weather-windy"
+            iconName: "weather-sunset"
         },
         Fog: {
             iconName: "weather-fog"
@@ -36,18 +38,23 @@ const Index = ({temp, error}) => {
             iconName: "weather-windy-variant"
         },
         Ash: {
-            iconName: "weather-sunset"
+            iconName: "weather-windy-variant"
         }
-    }]
+    }
+    // console.log(weatherData)
+    // const {main:{temp}, weather} = weatherData
+    // console.log(weather[0].main)
+    // // const condition
     let text = 'Загрузка..';
     if (error) {
         text = "Error";
-    } else if (temp) {
-        text = `${Math.round(temp?.main?.temp)}°`;
+    } else if (temperature) {
+        text = `${Math.round(temperature)}°`;
     }
     return (
         <>
             <View>
+                <Icon name={`${weatherOption[condition.main].iconName}`} style={styles.weatherIcon}/>
                 <Text style={styles.weatherText}>
                     {text}
                 </Text>
@@ -61,5 +68,9 @@ export default Index;
 const styles = StyleSheet.create({
     weatherText: {
         color: "white"
+    },
+    weatherIcon: {
+        color: "white",
+        fontSize: 24
     }
 })

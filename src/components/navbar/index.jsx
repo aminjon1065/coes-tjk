@@ -15,7 +15,8 @@ const Index = ({navigation}) => {
     const [errorMsg, setErrorMsg] = useState(null);
     const [weather, setWeather] = useState(null);
     const [isLoading, setLoading] = useState(true);
-
+    const [temperature, setTemperature] = useState(null);
+    const [conditional, setConditional] = useState(null);
     const API_KEY = 'b09b579f44c76f6b427d548fdcfccdfe';
     useEffect(() => {
         const getLocation = async () => {
@@ -32,7 +33,8 @@ const Index = ({navigation}) => {
             try {
                 const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
                 const json = await response.json();
-                setWeather(json)
+                setTemperature(json.main.temp)
+                setConditional(...json.weather)
                 setLoading(false);
             } catch (error) {
                 setErrorMsg(error)
@@ -62,11 +64,11 @@ const Index = ({navigation}) => {
                         ?
                         <ActivityIndicator/>
                         :
-                        <Weather temp={weather} error={errorMsg}/>
+                        <Weather weatherData={weather} temperature={temperature} condition={conditional} error={errorMsg}/>
                 }
             </View>
             {/*<StatusBar animated={true} backgroundColor="#3949ab" barStyle="light-content"/>*/}
-            <StatusBar hidden={true}/>
+            <StatusBar backgroundColor={"black"} barStyle={"light-content"}/>
         </View>
     );
 };
