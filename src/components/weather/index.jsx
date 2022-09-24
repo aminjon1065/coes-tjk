@@ -39,6 +39,15 @@ const Index = ({error, condition, temperature}) => {
         },
         Ash: {
             iconName: "weather-windy-variant"
+        },
+        Clouds: {
+            iconName: "apple-icloud"
+        },
+        Squall: {
+            iconName: "weather-cloudy-arrow-right"
+        },
+        Tornado: {
+            iconName: "weather-tornado"
         }
     }
     // console.log(weatherData)

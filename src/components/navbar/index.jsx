@@ -6,14 +6,11 @@ import {Linking} from 'react-native'
 import {DrawerActions} from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
-import axios from "axios";
 import Weather from "../weather";
-import Number from "../number";
 
 const Index = ({navigation}) => {
     const [locationDevice, setLocationDevice] = useState({});
     const [errorMsg, setErrorMsg] = useState(null);
-    const [weather, setWeather] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [temperature, setTemperature] = useState(null);
     const [conditional, setConditional] = useState(null);
@@ -45,6 +42,7 @@ const Index = ({navigation}) => {
         }
         getLocation()
     }, []);
+
     return (
         <View style={styles.navbar}>
             <Button
@@ -64,7 +62,8 @@ const Index = ({navigation}) => {
                         ?
                         <ActivityIndicator/>
                         :
-                        <Weather weatherData={weather} temperature={temperature} condition={conditional} error={errorMsg}/>
+                        <Weather temperature={temperature} condition={conditional}
+                                 error={errorMsg}/>
                 }
             </View>
             {/*<StatusBar animated={true} backgroundColor="#3949ab" barStyle="light-content"/>*/}
