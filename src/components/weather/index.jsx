@@ -24,7 +24,7 @@ const Index = ({temp, error}) => {
             iconName: "smoke"
         },
         Haze: {
-            iconName: "day-haze\n"
+            iconName: "day-haze"
         },
         Dust: {
             iconName: "weather-windy"
