@@ -5,13 +5,9 @@ import {whatToDoData} from "./whatToDoData";
 const Index = () => {
     const [title, setTitle] = useState(null);
     const [descriptions, setDescriptions] = useState(null);
-    const {titles}= whatToDoData
-    console.log(titles)
-    // useEffect(()=>{
-    //     setTitle(...whatToDoData.title)
-    // },[])
-    console.log(title)
-    return (
+
+
+       return (
         <View>
             <Text>
                 Categories
