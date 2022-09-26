@@ -18,24 +18,23 @@ export default function SignIn({navigation}) {
     const [datas, setDatas] = useState(null);
     useEffect(() => {
         StatusBar.setBarStyle('light-content', true);
-        const dataFetch = async () => {
-            try {
-                const response = await fetch('https://jsonplaceholder.typicode.com/users');
-                const json = await response.json();
-                setDatas(json);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                console.log("finally")
-            }
-        }
-        dataFetch();
+        // const dataFetch = async () => {
+        //     try {
+        //         const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        //         const json = await response.json();
+        //         setDatas(json);
+        //     } catch (error) {
+        //         console.error(error);
+        //     } finally {
+        //         console.log("finally")
+        //     }
+        // }
+        // dataFetch();
     }, []);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [hidePassword, setHidePassword] = useState(true);
-    console.log(datas);
     const handleSubmit = () => {
         axios.post(`${BASE_URL}/login`, {
             'email': email,

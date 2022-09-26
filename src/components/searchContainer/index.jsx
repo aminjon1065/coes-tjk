@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput, View} from "react-native";
 import {Button} from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Index = () => {
     const [val, setVal] = useState('')
+    const setStorage = async () => {
+        try {
+            await AsyncStorage.setItem('@test', val);
+        } catch (e) {
+            console.log(e)
+        }
+    }
     return (
         <View style={styles.container}>
             <TextInput style={styles.input} defaultValue={val} onChangeText={newText => setVal(newText)}/>
@@ -14,6 +22,7 @@ const Index = () => {
                 textColor={"white"}
                 onPress={() => {
                     console.log(val)
+                    setStorage()
                     setVal('')
                 }}
             >
@@ -37,7 +46,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
-        elevation:20
+        elevation: 20
     },
     input: {
         width: "70%",
@@ -45,7 +54,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#3949ab",
         borderRadius: 5,
-        padding:5
+        padding: 5
     },
     button: {}
 })
