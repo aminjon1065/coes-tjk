@@ -13,9 +13,15 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 export default function SignIn({navigation}) {
     useEffect(() => {
+<<<<<<< HEAD
             StatusBar.setBarStyle('light-content', true);
         }, []
     )
+=======
+        StatusBar.setBarStyle('light-content', true);
+    }, []);
+
+>>>>>>> parent of c6b8afa (0.0.1)
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -53,7 +59,11 @@ export default function SignIn({navigation}) {
                 </TouchableOpacity>
                 <View style={styles.signUpTextView}>
                     <Text style={styles.signUpText}>Don't have an account?</Text>
+<<<<<<< HEAD
                     <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+=======
+                    <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}>
+>>>>>>> parent of c6b8afa (0.0.1)
                         <Text style={[styles.signUpText, {color: '#B53471'}]}>
                             {' Sign Up'}
                         </Text>
