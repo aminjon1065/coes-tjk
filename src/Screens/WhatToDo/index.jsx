@@ -1,36 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from "react-native";
 import {whatToDoData} from "./whatToDoData";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from "@react-navigation/native";
-import js from "@react-native-community/geolocation/js";
-import axios from "axios";
 
 const Index = () => {
-    const isFocused = useIsFocused();
-
     const [title, setTitle] = useState(null);
     const [descriptions, setDescriptions] = useState(null);
-<<<<<<< HEAD
-    // useEffect(() => {
-        //     const storageGetFunc = async () => {
-        //         const dataStorage = await AsyncStorage.getItem('@test')
-        //         setTitle(dataStorage)
-        //     }
-        //     if (isFocused) {
-        //         storageGetFunc();
-        //     }
 
-    // }, [isFocused])
-=======
->>>>>>> parent of c6b8afa (0.0.1)
-    const {titles}= whatToDoData
-    console.log(titles)
-    // useEffect(()=>{
-    //     setTitle(...whatToDoData.title)
-    // },[])
-    console.log(title)
-    return (
+
+       return (
         <View>
             <Text>
                 Categories
