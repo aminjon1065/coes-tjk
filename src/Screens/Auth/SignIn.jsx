@@ -13,38 +13,9 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 export default function SignIn({navigation}) {
     useEffect(() => {
-        StatusBar.setBarStyle('light-content', true);
-<<<<<<< HEAD
-        // const dataFetch = async () => {
-        //     try {
-        //         const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        //         const json = await response.json();
-        //         setDatas(json);
-        //     } catch (error) {
-        //         console.error(error);
-        //     } finally {
-        //         console.log("finally")
-        //     }
-        // }
-        // dataFetch();
-    }, []);
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [hidePassword, setHidePassword] = useState(true);
-    const handleSubmit = () => {
-        axios.post(`${BASE_URL}/login`, {
-            'email': email,
-            "password": password,
-            "deviceName": Device.modelName
-        }).then((response) => {
-            console.log(response)
-        })
-    }
-=======
-    }, []);
-
->>>>>>> parent of c6b8afa (0.0.1)
+            StatusBar.setBarStyle('light-content', true);
+        }, []
+    )
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -82,7 +53,7 @@ export default function SignIn({navigation}) {
                 </TouchableOpacity>
                 <View style={styles.signUpTextView}>
                     <Text style={styles.signUpText}>Don't have an account?</Text>
-                    <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
                         <Text style={[styles.signUpText, {color: '#B53471'}]}>
                             {' Sign Up'}
                         </Text>
