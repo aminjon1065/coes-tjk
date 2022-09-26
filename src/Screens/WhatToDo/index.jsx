@@ -11,6 +11,7 @@ const Index = () => {
 
     const [title, setTitle] = useState(null);
     const [descriptions, setDescriptions] = useState(null);
+<<<<<<< HEAD
     // useEffect(() => {
         //     const storageGetFunc = async () => {
         //         const dataStorage = await AsyncStorage.getItem('@test')
@@ -21,6 +22,14 @@ const Index = () => {
         //     }
 
     // }, [isFocused])
+=======
+    const {titles}= whatToDoData
+    console.log(titles)
+    // useEffect(()=>{
+    //     setTitle(...whatToDoData.title)
+    // },[])
+    console.log(title)
+>>>>>>> parent of c6b8afa (0.0.1)
     return (
         <View>
             <Text>
