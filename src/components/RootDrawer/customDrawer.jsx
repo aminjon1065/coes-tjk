@@ -5,12 +5,31 @@ import {
     DrawerItemList,
 } from '@react-navigation/drawer';
 import {Button} from "react-native-paper";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {BASE_URL} from "../../constant";
 
 const CustomDrawer = (props) => {
     const [user, setUser] = useState(null);
     const [today, setToday] = useState(null);
+    const [token, setToken] = useState(null);
     useEffect(() => {
         const today = new Date().toISOString().slice(0, 10)
+        if (AsyncStorage.getItem('@token')) {
+            setToken(AsyncStorage.getItem('@token'))
+            axios.post(`${BASE_URL}/login`,
+                {}, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    }
+                }
+            ).then((res) => setUser(res.data))
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+
         // setToday(`${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`)
         setToday(today)
     }, []);
@@ -33,12 +52,12 @@ const CustomDrawer = (props) => {
                                 ?
                                 <>
                                     <View>
-                                        <Text>Name User</Text>
-                                        <Text>example@email.com</Text>
+                                        <Text>{user?.data?.name}</Text>
+                                        <Text>{user?.data?.email}</Text>
                                     </View>
                                     <Image
                                         source={{
-                                            uri: 'https://images.unsplash.com/photo-1624243225303-261cc3cd2fbc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+                                            uri: `http://only.tj/avatrs${user?.data?.image}`,
                                         }}
                                         style={{width: 60, height: 60, borderRadius: 30}}
                                     />
@@ -51,14 +70,20 @@ const CustomDrawer = (props) => {
                     </View>
                     <DrawerItemList {...props} />
                 </DrawerContentScrollView>
-                <Button
-                    mode={"text"}
-                    textColor={"#3949ab"}
-                    icon={"login"}
-                    onPress={() => props.navigation.navigate('SignIn')}
-                >
-                    Войти
-                </Button>
+                {
+                    user
+                        ?
+                        null
+                        :
+                        <Button
+                            mode={"text"}
+                            textColor={"#3949ab"}
+                            icon={"login"}
+                            onPress={() => props.navigation.navigate('SignIn')}
+                        >
+                            Войти
+                        </Button>
+                }
                 {/*<TouchableOpacity*/}
                 {/*    style={styles.footer}*/}
                 {/*>*/}

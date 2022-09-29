@@ -13,6 +13,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import axios from "axios";
 import {BASE_URL} from "../../constant";
 import * as Device from 'expo-device';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignIn({navigation}) {
     const [datas, setDatas] = useState(null);
@@ -35,16 +36,40 @@ export default function SignIn({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [hidePassword, setHidePassword] = useState(true);
-    console.log(datas);
-    const handleSubmit = () => {
-        axios.post(`${BASE_URL}/login`, {
-            'email': email,
-            "password": password,
-            "deviceName": Device.modelName
-        }).then((response) => {
-            console.log(response)
-        })
+    // console.log(datas);
+    const handleSubmit = async () => {
+        console.log("clicked")
+        try {
+            fetch(`${BASE_URL}/login`, {
+                method:"POST",
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                   password
+                })
+            }).then((response)=>response.json())
+                .then((json)=>{
+                    console.log(json)
+                })
+        } catch (e) {
+            console.log(e)
+        }
+        // await axios.post(`${BASE_URL}/login`, {
+        //     'email': email,
+        //     "password": password,
+        //     "deviceName": Device.modelName
+        // }).then((response) => {
+        //     AsyncStorage.setItem("@token", response.data.token)
+        //     console.log(response.data)
+        //     console.log('clicked')
+        // }).catch((err) => {
+        //     console.log(err)
+        // })
     }
+
     return (
         <TouchableWithoutFeedback
             onPress={() => {
