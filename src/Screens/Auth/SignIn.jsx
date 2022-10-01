@@ -9,18 +9,11 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-<<<<<<< HEAD
-import {BASE_URL} from "../../constant";
-import * as Device from 'expo-device';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-=======
 import * as Device from 'expo-device';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
 import {signed} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
->>>>>>> a2b981e64f413c54efa2fd8356a4db738e0822e8
 
 export default function SignIn({navigation}) {
     const dispatch = useDispatch();
@@ -31,20 +24,6 @@ export default function SignIn({navigation}) {
     });
     const [hidePassword, setHidePassword] = useState(true);
     const handleSubmit = async () => {
-<<<<<<< HEAD
-        console.log("clicked")
-
-        await axios.post(`${BASE_URL}/login`, {
-            'email': email,
-            "password": password,
-            "deviceName": Device.modelName
-        }).then((response) => {
-            AsyncStorage.setItem("@token", response.data.token)
-            console.log(response.data)
-            console.log('clicked')
-        }).catch((err) => {
-            console.log(err)
-=======
         await signInService(credintials).then((response) => {
             if (response.status === 201) {
                 AsyncStorage.setItem("@token", response.data.token)
@@ -53,7 +32,6 @@ export default function SignIn({navigation}) {
             }
         }).catch(error => {
             dispatch(signedError())
->>>>>>> a2b981e64f413c54efa2fd8356a4db738e0822e8
         })
     }
     const emailChange = (val) => {
