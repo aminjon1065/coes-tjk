@@ -14,14 +14,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
 import {signed} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
+import {HelperText} from "react-native-paper";
 
 export default function SignIn({navigation}) {
     const dispatch = useDispatch();
+    const [error, setError] = useState(false);
     const [credintials, setCredentials] = useState({
         email: "",
         password: "",
         deviceName: Device.modelName
     });
+    const hasErrors = () => {
+        return !credintials.email.includes('@');
+    };
     const [hidePassword, setHidePassword] = useState(true);
     const handleSubmit = async () => {
         await signInService(credintials).then((response) => {
@@ -29,6 +34,10 @@ export default function SignIn({navigation}) {
                 AsyncStorage.setItem("@token", response.data.token)
                 dispatch(signed(response.data))
                 navigation.navigate('Что делать?')
+            }
+            if (!response)
+            {
+                setError(true)
             }
         }).catch(error => {
             dispatch(signedError())
@@ -54,6 +63,7 @@ export default function SignIn({navigation}) {
             >
                 <Text style={styles.welcomeText}>Добро пожаловать!</Text>
                 <Text style={styles.loginText}>Войти</Text>
+                <HelperText type="error" visible={hasErrors()}> Email address is invalid!</HelperText>
                 <TextInput
                     defaultValue={credintials.email}
                     onChangeText={newText => emailChange(newText)}
