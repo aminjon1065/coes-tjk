@@ -18,6 +18,7 @@ const Index = () => {
     useEffect(() => {
         getMovies();
     }, []);
+
     return (
         <View>
             {

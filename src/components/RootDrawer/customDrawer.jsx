@@ -5,34 +5,15 @@ import {
     DrawerItemList,
 } from '@react-navigation/drawer';
 import {Button} from "react-native-paper";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {BASE_URL} from "../../constant";
+import {useSelector} from "react-redux";
 
 const CustomDrawer = (props) => {
-    const [user, setUser] = useState(null);
     const [today, setToday] = useState(null);
-    const [token, setToken] = useState(null);
     useEffect(() => {
         const today = new Date().toISOString().slice(0, 10)
-        if (AsyncStorage.getItem('@token')) {
-            setToken(AsyncStorage.getItem('@token'))
-            axios.post(`${BASE_URL}/login`,
-                {}, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/json'
-                    }
-                }
-            ).then((res) => setUser(res.data))
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-
-        // setToday(`${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`)
         setToday(today)
     }, []);
+    const user = useSelector(state => state.signIn)
     return (
         <>
             <View style={{flex: 1}}>
@@ -48,16 +29,16 @@ const CustomDrawer = (props) => {
                         }}
                     >
                         {
-                            user
+                            user.authentificated
                                 ?
                                 <>
                                     <View>
-                                        <Text>{user?.data?.name}</Text>
-                                        <Text>{user?.data?.email}</Text>
+                                        <Text>{user?.user?.name}</Text>
+                                        <Text>{user?.user?.email}</Text>
                                     </View>
                                     <Image
                                         source={{
-                                            uri: `http://only.tj/avatrs${user?.data?.image}`,
+                                            uri: `https://only.tj/avatars/${user?.user?.image}`,
                                         }}
                                         style={{width: 60, height: 60, borderRadius: 30}}
                                     />
@@ -71,7 +52,7 @@ const CustomDrawer = (props) => {
                     <DrawerItemList {...props} />
                 </DrawerContentScrollView>
                 {
-                    user
+                    user.authentificated
                         ?
                         null
                         :

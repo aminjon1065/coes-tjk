@@ -1,15 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Text, View} from "react-native";
-import {whatToDoData} from "./whatToDoData";
+import {useSelector} from "react-redux";
 
 const Index = () => {
-    const [title, setTitle] = useState(null);
-    const [descriptions, setDescriptions] = useState(null);
-
-
-       return (
+    const selector = useSelector(state => state.signIn)
+    return (
         <View>
             <Text>
+                {selector?.user?.name}
                 Categories
             </Text>
         </View>

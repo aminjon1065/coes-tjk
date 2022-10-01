@@ -88,9 +88,10 @@ const styles = StyleSheet.create({
             width: 0,
             height: 3,
         },
-        shadowOpacity: 0.27,
+        shadowOpacity: 0.8,
         shadowRadius: 4.65,
-        elevation: 50,
+        elevation: 4,
+
     },
     text: {
         color: "white",

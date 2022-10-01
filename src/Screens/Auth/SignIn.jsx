@@ -4,40 +4,34 @@ import {
     Text,
     View,
     TextInput,
-    StatusBar,
     Keyboard,
     TouchableWithoutFeedback,
     TouchableOpacity,
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
+<<<<<<< HEAD
 import {BASE_URL} from "../../constant";
 import * as Device from 'expo-device';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+=======
+import * as Device from 'expo-device';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useDispatch} from "react-redux";
+import {signed} from "../../store/Slice/signInSlice";
+import {signInService} from "../../services/auth/signIn.service";
+>>>>>>> a2b981e64f413c54efa2fd8356a4db738e0822e8
 
 export default function SignIn({navigation}) {
-    const [datas, setDatas] = useState(null);
-    useEffect(() => {
-        StatusBar.setBarStyle('light-content', true);
-        const dataFetch = async () => {
-            try {
-                const response = await fetch('https://jsonplaceholder.typicode.com/users');
-                const json = await response.json();
-                setDatas(json);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                console.log("finally")
-            }
-        }
-        dataFetch();
-    }, []);
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const [credintials, setCredentials] = useState({
+        email: "",
+        password: "",
+        deviceName: Device.modelName
+    });
     const [hidePassword, setHidePassword] = useState(true);
-    // console.log(datas);
     const handleSubmit = async () => {
+<<<<<<< HEAD
         console.log("clicked")
 
         await axios.post(`${BASE_URL}/login`, {
@@ -50,8 +44,24 @@ export default function SignIn({navigation}) {
             console.log('clicked')
         }).catch((err) => {
             console.log(err)
+=======
+        await signInService(credintials).then((response) => {
+            if (response.status === 201) {
+                AsyncStorage.setItem("@token", response.data.token)
+                dispatch(signed(response.data))
+                navigation.navigate('Что делать?')
+            }
+        }).catch(error => {
+            dispatch(signedError())
+>>>>>>> a2b981e64f413c54efa2fd8356a4db738e0822e8
         })
     }
+    const emailChange = (val) => {
+        setCredentials({...credintials, email: val});
+    };
+    const passwordChange = (val) => {
+        setCredentials({...credintials, password: val});
+    };
 
     return (
         <TouchableWithoutFeedback
@@ -67,8 +77,8 @@ export default function SignIn({navigation}) {
                 <Text style={styles.welcomeText}>Добро пожаловать!</Text>
                 <Text style={styles.loginText}>Войти</Text>
                 <TextInput
-                    defaultValue={email}
-                    onChangeText={newText => setEmail(newText)}
+                    defaultValue={credintials.email}
+                    onChangeText={newText => emailChange(newText)}
                     style={styles.input}
                     placeholder='Email-адрес'
                     placeholderTextColor='#808e9b'
@@ -79,8 +89,8 @@ export default function SignIn({navigation}) {
                     textContentType='emailAddress'
                 />
                 <TextInput
-                    defaultValue={password}
-                    onChangeText={newPassword => setPassword(newPassword)}
+                    defaultValue={credintials.password}
+                    onChangeText={newPassword => passwordChange(newPassword)}
                     placeholder='Пароль'
                     placeholderTextColor='#808e9b'
                     style={styles.input}
@@ -91,7 +101,6 @@ export default function SignIn({navigation}) {
                     <Text style={styles.fpText}>Забыли пароль?</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.loginButton} onPress={() => {
-                    // console.log(email)
                     handleSubmit()
                 }}>
                     <Text style={styles.loginButtonText}>Войти</Text>
