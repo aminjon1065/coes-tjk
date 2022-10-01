@@ -12,36 +12,48 @@ import {LinearGradient} from 'expo-linear-gradient';
 import * as Device from 'expo-device';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
-import {signed} from "../../store/Slice/signInSlice";
+import {signed, signedError} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
 import {HelperText} from "react-native-paper";
 
 export default function SignIn({navigation}) {
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
+    const [message, setMessage] = useState("");
     const [credintials, setCredentials] = useState({
         email: "",
         password: "",
         deviceName: Device.modelName
     });
     const hasErrors = () => {
-        return !credintials.email.includes('@');
+        if (error) {
+            return error;
+        }
+
     };
     const [hidePassword, setHidePassword] = useState(true);
     const handleSubmit = async () => {
-        await signInService(credintials).then((response) => {
-            if (response.status === 201) {
-                AsyncStorage.setItem("@token", response.data.token)
-                dispatch(signed(response.data))
-                navigation.navigate('Что делать?')
-            }
-            if (!response)
-            {
+        try {
+            await signInService(credintials).then((response) => {
+                console.log(response)
+                if (response.status === 201) {
+                    AsyncStorage.setItem("@token", response.data.token)
+                    dispatch(signed(response.data))
+                    navigation.navigate('Что делать?')
+                    console.log("success")
+                }
+                if (response.status === 401) {
+
+                    console.log("401")
+                }
+            }).catch(error => {
+                dispatch(signedError())
                 setError(true)
-            }
-        }).catch(error => {
-            dispatch(signedError())
-        })
+                setMessage(error.response.data.message)
+            })
+        } catch (e) {
+            console.log("catch error")
+        }
     }
     const emailChange = (val) => {
         setCredentials({...credintials, email: val});
@@ -63,7 +75,7 @@ export default function SignIn({navigation}) {
             >
                 <Text style={styles.welcomeText}>Добро пожаловать!</Text>
                 <Text style={styles.loginText}>Войти</Text>
-                <HelperText type="error" visible={hasErrors()}> Email address is invalid!</HelperText>
+                <HelperText type="error" visible={hasErrors()}> {message}</HelperText>
                 <TextInput
                     defaultValue={credintials.email}
                     onChangeText={newText => emailChange(newText)}
@@ -85,7 +97,9 @@ export default function SignIn({navigation}) {
                     secureTextEntry={hidePassword}
                     textContentType='password'
                 />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    console.log("click")
+                }}>
                     <Text style={styles.fpText}>Забыли пароль?</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.loginButton} onPress={() => {
