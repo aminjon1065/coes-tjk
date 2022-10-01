@@ -10,10 +10,10 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import axios from "axios";
 import {BASE_URL} from "../../constant";
 import * as Device from 'expo-device';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 export default function SignIn({navigation}) {
     const [datas, setDatas] = useState(null);
@@ -39,31 +39,18 @@ export default function SignIn({navigation}) {
     // console.log(datas);
     const handleSubmit = async () => {
         console.log("clicked")
-        // try {
-        //     await axios.post(`${BASE_URL}/login`, {
-        //         email,
-        //         password
-        //     },).then((response)=>{
-        //         console.log(response)
-        //         console.log("wait response")
-        //     });
-        // } catch (error) {
-        //     if (axios.isCancel(error))
-        //     {
-        //         console.log(error)
-        //     }
-        // }
-        // await axios.post(`${BASE_URL}/login`, {
-        //     'email': email,
-        //     "password": password,
-        //     "deviceName": Device.modelName
-        // }).then((response) => {
-        //     AsyncStorage.setItem("@token", response.data.token)
-        //     console.log(response.data)
-        //     console.log('clicked')
-        // }).catch((err) => {
-        //     console.log(err)
-        // })
+
+        await axios.post(`${BASE_URL}/login`, {
+            'email': email,
+            "password": password,
+            "deviceName": Device.modelName
+        }).then((response) => {
+            AsyncStorage.setItem("@token", response.data.token)
+            console.log(response.data)
+            console.log('clicked')
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     return (
