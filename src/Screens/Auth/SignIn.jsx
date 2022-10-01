@@ -3,7 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
+    // TextInput,
     Keyboard,
     TouchableWithoutFeedback,
     TouchableOpacity,
@@ -14,12 +14,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
 import {signed, signedError} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
-import {HelperText} from "react-native-paper";
+import {HelperText, Snackbar, TextInput} from "react-native-paper";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default function SignIn({navigation}) {
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
+    // const [checked, setChecked] = React.useState(false);
+    const [showPassword, setShowPassword] = useState(true);
+
     const [credintials, setCredentials] = useState({
         email: "",
         password: "",
@@ -31,11 +35,11 @@ export default function SignIn({navigation}) {
         }
 
     };
-    const [hidePassword, setHidePassword] = useState(true);
     const handleSubmit = async () => {
+        Keyboard.dismiss();
         try {
             await signInService(credintials).then((response) => {
-                console.log(response)
+
                 if (response.status === 201) {
                     AsyncStorage.setItem("@token", response.data.token)
                     dispatch(signed(response.data))
@@ -61,6 +65,7 @@ export default function SignIn({navigation}) {
     const passwordChange = (val) => {
         setCredentials({...credintials, password: val});
     };
+    const onDismissSnackBar = () => setError(false);
 
     return (
         <TouchableWithoutFeedback
@@ -76,12 +81,35 @@ export default function SignIn({navigation}) {
                 <Text style={styles.welcomeText}>Добро пожаловать!</Text>
                 <Text style={styles.loginText}>Войти</Text>
                 <HelperText type="error" visible={hasErrors()}> {message}</HelperText>
+                <View style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+
+                    <Snackbar
+                        style={styles.errorSnackBar}
+                        visible={error}
+                        onDismiss={onDismissSnackBar}
+                        action={{
+                            label: 'закрыть',
+                            onPress: () => {
+                                // Do something
+                            },
+                        }}>
+                        {message}
+                    </Snackbar>
+                </View>
                 <TextInput
                     defaultValue={credintials.email}
                     onChangeText={newText => emailChange(newText)}
                     style={styles.input}
                     placeholder='Email-адрес'
-                    placeholderTextColor='#808e9b'
+                    placeholderTextColor='white'
                     autoCorrect={true}
                     autoCapitalize={false}
                     autoCompleteType='email'
@@ -92,9 +120,9 @@ export default function SignIn({navigation}) {
                     defaultValue={credintials.password}
                     onChangeText={newPassword => passwordChange(newPassword)}
                     placeholder='Пароль'
-                    placeholderTextColor='#808e9b'
+                    placeholderTextColor='white'
                     style={styles.input}
-                    secureTextEntry={hidePassword}
+                    secureTextEntry={showPassword}
                     textContentType='password'
                 />
                 <TouchableOpacity onPress={() => {
@@ -149,7 +177,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         fontSize: 16,
         // color: '#808e9b',
-        color: '#fff',
+        color: 'white',
     },
     fpText: {
         alignSelf: 'flex-end',
@@ -196,4 +224,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
     },
+    errorSnackBar: {
+        backgroundColor: "#EF5350",
+    }
 });
