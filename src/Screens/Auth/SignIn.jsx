@@ -3,7 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
-    // TextInput,
+    TextInput,
     Keyboard,
     TouchableWithoutFeedback,
     TouchableOpacity,
@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
 import {signed, signedError} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
-import {HelperText, Snackbar, TextInput} from "react-native-paper";
+import {HelperText, Snackbar} from "react-native-paper";
 import Icon from "react-native-vector-icons/Ionicons";
 
 export default function SignIn({navigation}) {
@@ -22,7 +22,7 @@ export default function SignIn({navigation}) {
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
     // const [checked, setChecked] = React.useState(false);
-    const [showPassword, setShowPassword] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
 
     const [credintials, setCredentials] = useState({
         email: "",
@@ -116,15 +116,23 @@ export default function SignIn({navigation}) {
                     keyboardType='email-address'
                     textContentType='emailAddress'
                 />
-                <TextInput
-                    defaultValue={credintials.password}
-                    onChangeText={newPassword => passwordChange(newPassword)}
-                    placeholder='Пароль'
-                    placeholderTextColor='white'
-                    style={styles.input}
-                    secureTextEntry={showPassword}
-                    textContentType='password'
-                />
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        defaultValue={credintials.password}
+                        onChangeText={newPassword => passwordChange(newPassword)}
+                        placeholder='Пароль'
+                        placeholderTextColor='white'
+                        style={styles.input}
+                        secureTextEntry={!showPassword}
+                        textContentType='password'
+                        // right={<Icon name={"eye"}/>}
+                    />
+                    <TouchableOpacity onPress={() => {
+                        setShowPassword(!showPassword)
+                    }} style={styles.eyeIcon}>
+                        <Icon name={showPassword ? "eye" : "eye-off"} size={20} color={"white"}/>
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
@@ -154,11 +162,28 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingHorizontal: 20,
     },
+    inputContainer: {
+        flexDirection: 'row',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // backgroundColor: '#fff',
+    },
     welcomeText: {
         fontSize: 30,
         fontWeight: '900',
         color: '#fff',
         alignSelf: 'center',
+    },
+    eyeIcon: {
+        height:50,
+        borderRadius:5,
+        right: 60,
+        marginTop:10,
+        paddingRight: 20,
+        paddingLeft: 20,
+        padding: 10,
+        // backgroundColor: "#a1c4fd",
+        justifyContent: "center",
     },
     loginText: {
         color: '#fff',

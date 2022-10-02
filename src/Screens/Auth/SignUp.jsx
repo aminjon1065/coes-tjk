@@ -6,7 +6,7 @@ import {
     TextInput,
     Keyboard,
     TouchableWithoutFeedback,
-    TouchableOpacity,
+    TouchableOpacity, ImagePickerIOS, Image,
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Device from 'expo-device';
@@ -15,20 +15,24 @@ import {useDispatch} from "react-redux";
 import {signed, signedError} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
 import {HelperText, Snackbar} from "react-native-paper";
+import * as ImagePicker from 'expo-image-picker';
+import image from "react-native-reanimated/src/reanimated2/component/Image";
 
 export default function SignUp({navigation}) {
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
+    const [imageName, setImageName] = useState(null);
     const [credintials, setCredentials] = useState({
         name: "",
         email: "",
         password: "",
-        deviceName: Device.modelName
+        password_confirmation: "",
+        image: null
     });
+
     const hasErrors = () => {
-        if (credintials.email.length >= 3)
-        {
+        if (credintials.email.length >= 3) {
             return !credintials.email.includes("@")
         }
     };
@@ -60,11 +64,29 @@ export default function SignUp({navigation}) {
     const emailChange = (val) => {
         setCredentials({...credintials, email: val});
     };
+    const nameChange = (val) => {
+        setCredentials({...credintials, name: val});
+    };
     const passwordChange = (val) => {
         setCredentials({...credintials, password: val});
+        setCredentials({...credintials, password_confirmation: val});
     };
     const onDismissSnackBar = () => setError(false);
-
+    const selectAvatar = async () => {
+        let avatarImage = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            // aspect: [4, 3],
+            quality: 1,
+        })
+        let localUri = await avatarImage.uri;
+        let filename = await localUri.split('/').pop();
+        setCredentials({...credintials, image: avatarImage})
+        if (!avatarImage.cancelled) {
+            setCredentials(...credintials, image.uri);
+        }
+    }
+    console.log(imageName)
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -103,6 +125,18 @@ export default function SignUp({navigation}) {
                     </Snackbar>
                 </View>
                 <TextInput
+                    defaultValue={credintials.name}
+                    onChangeText={newText => nameChange(newText)}
+                    style={styles.input}
+                    placeholder='Имя и Фамилия'
+                    placeholderTextColor='#808e9b'
+                    autoCorrect={true}
+                    autoCapitalize={false}
+                    autoCompleteType='name'
+                    keyboardType='name-phone-pad'
+                    textContentType='name'
+                />
+                <TextInput
                     defaultValue={credintials.email}
                     onChangeText={newText => emailChange(newText)}
                     style={styles.input}
@@ -123,6 +157,12 @@ export default function SignUp({navigation}) {
                     secureTextEntry={hidePassword}
                     textContentType='password'
                 />
+                <TouchableOpacity onPress={() => selectAvatar()}>
+                    <Text>
+                        Choose
+                    </Text>
+                </TouchableOpacity>
+                {imageName && <Text>{imageName}</Text>}
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
@@ -143,7 +183,8 @@ export default function SignUp({navigation}) {
                 </View>
             </LinearGradient>
         </TouchableWithoutFeedback>
-    );
+    )
+        ;
 }
 
 const styles = StyleSheet.create({
