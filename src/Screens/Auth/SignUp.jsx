@@ -98,6 +98,7 @@ export default function SignUp({navigation}) {
                 // colors={['#a1c4fd', '#c2e9fb']}
                 style={styles.container}
             >
+                <Text style={{...styles.loginText, color: "red"}}>Тестовый режим</Text>
                 <Text style={styles.welcomeText}>Добро пожаловать!</Text>
                 <Text style={styles.loginText}>Зарегистрироваться</Text>
                 <HelperText type="error" visible={false}> Введите корректный email-адрес</HelperText>

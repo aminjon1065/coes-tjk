@@ -43,6 +43,9 @@ export default function SignIn({navigation}) {
                 if (response.status === 201) {
                     AsyncStorage.setItem("@token", response.data.token)
                     dispatch(signed(response.data))
+                    if (response.data.isAdmin) {
+                        navigation.navigate('Main?')
+                    }
                     navigation.navigate('Что делать?')
                     console.log("success")
                 }
@@ -144,7 +147,7 @@ export default function SignIn({navigation}) {
                     <Text style={styles.loginButtonText}>Войти</Text>
                 </TouchableOpacity>
                 <View style={styles.signUpTextView}>
-                    <Text style={styles.signUpText}>У вас нет аккаунта?</Text>
+                    <Text style={styles.signUpText}>У вас нет аккаунта? </Text>
                     <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
                         <Text style={[styles.signUpText, {color: '#a1c4fd'}]}>
                             Создать
@@ -175,10 +178,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     eyeIcon: {
-        height:50,
-        borderRadius:5,
+        height: 50,
+        borderRadius: 5,
         right: 60,
-        marginTop:10,
+        marginTop: 10,
         paddingRight: 20,
         paddingLeft: 20,
         padding: 10,
