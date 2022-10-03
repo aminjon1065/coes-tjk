@@ -6,17 +6,15 @@ import {
     TextInput,
     Keyboard,
     TouchableWithoutFeedback,
-    TouchableOpacity, ImagePickerIOS, Image,
+    TouchableOpacity, Image,
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import * as Device from 'expo-device';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
 import {signed, signedError} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
 import {HelperText, Snackbar} from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
-import image from "react-native-reanimated/src/reanimated2/component/Image";
 
 export default function SignUp({navigation}) {
     const dispatch = useDispatch();
@@ -73,20 +71,27 @@ export default function SignUp({navigation}) {
     };
     const onDismissSnackBar = () => setError(false);
     const selectAvatar = async () => {
-        let avatarImage = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            // aspect: [4, 3],
-            quality: 1,
-        })
-        let localUri = await avatarImage.uri;
-        let filename = await localUri.split('/').pop();
-        setCredentials({...credintials, image: avatarImage})
-        if (!avatarImage.cancelled) {
-            setCredentials(...credintials, image.uri);
+        let permissionResult =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (permissionResult.granted === false) {
+            alert("Нет разрешения!");
+            return;
         }
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        });
+        if (pickerResult.cancelled === true) return;
+        let localUri = await pickerResult.uri;
+        let filename = await localUri.split('/').pop();
+        setImageName(filename)
+        setCredentials({...credintials, image: pickerResult});
     }
     console.log(imageName)
+    console.log(credintials.image)
+
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -163,7 +168,7 @@ export default function SignUp({navigation}) {
                         Choose
                     </Text>
                 </TouchableOpacity>
-                {imageName && <Text>{imageName}</Text>}
+                {imageName && <Image source={{ uri: credintials.image.uri }} style={{ width: 100, height: 100 }} />}
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
