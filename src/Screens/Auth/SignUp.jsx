@@ -15,59 +15,40 @@ import {signed, signedError} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
 import {HelperText, Snackbar} from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
+import {signUpService} from "../../services/auth/signUp.service";
+import axios from "axios";
+import {apiRequest} from "../../helper/apiRequest";
 
 export default function SignUp({navigation}) {
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
     const [imageName, setImageName] = useState(null);
+    const [hidePassword, setHidePassword] = useState(true);
     const [credintials, setCredentials] = useState({
         name: "",
         email: "",
         password: "",
-        password_confirmation: "",
-        image: null
+        image: {}
     });
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("initState");
+    const [image, setImage] = useState(null);
 
-    const hasErrors = () => {
-        if (credintials.email.length >= 3) {
-            return !credintials.email.includes("@")
-        }
-    };
-    const [hidePassword, setHidePassword] = useState(true);
-    const handleSubmit = async () => {
-        Keyboard.dismiss();
-        try {
-            await signInService(credintials).then((response) => {
-
-                if (response.status === 201) {
-                    AsyncStorage.setItem("@token", response.data.token)
-                    dispatch(signed(response.data))
-                    navigation.navigate('Что делать?')
-                    console.log("success")
-                }
-                if (response.status === 401) {
-
-                    console.log("401")
-                }
-            }).catch(error => {
-                dispatch(signedError())
-                setError(true)
-                setMessage(error.response.data.message)
-            })
-        } catch (e) {
-            console.log("catch error")
-        }
-    }
     const emailChange = (val) => {
+        setEmail(val)
         setCredentials({...credintials, email: val});
     };
+
     const nameChange = (val) => {
+        setName(val)
         setCredentials({...credintials, name: val});
     };
+
     const passwordChange = (val) => {
+        setPassword(val)
         setCredentials({...credintials, password: val});
-        setCredentials({...credintials, password_confirmation: val});
     };
     const onDismissSnackBar = () => setError(false);
     const selectAvatar = async () => {
@@ -87,11 +68,32 @@ export default function SignUp({navigation}) {
         let localUri = await pickerResult.uri;
         let filename = await localUri.split('/').pop();
         setImageName(filename)
-        setCredentials({...credintials, image: pickerResult});
+        setCredentials({...credintials, image: localUri});
+        setImage(pickerResult)
     }
-    console.log(imageName)
-    console.log(credintials.image)
 
+    const handleSubmit = async () => {
+        Keyboard.dismiss();
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("password", password);
+        formData.append("image", {
+            uri: credintials.image,
+            type: 'image/jpeg',
+            name: 'profile-picture.jpg'
+        });
+        console.log(formData)
+        await axios.post("https://only.tj/api/v1/register", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then((res) => {
+            console.log(res)
+        }).catch((error) => {
+            console.log(error.response)
+        })
+    }
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -168,25 +170,16 @@ export default function SignUp({navigation}) {
                         Choose
                     </Text>
                 </TouchableOpacity>
-                {imageName && <Image source={{ uri: credintials.image.uri }} style={{ width: 100, height: 100 }} />}
+                {imageName && <Image source={{uri: image.uri}} style={{width: 100, height: 100}}/>}
+                {imageName && <Text>{credintials.image}</Text>}
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
                     <Text style={styles.fpText}>Забыли пароль?</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.loginButton} onPress={() => {
-                    handleSubmit()
-                }}>
-                    <Text style={styles.loginButtonText}>Войти</Text>
+                <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+                    <Text style={styles.loginButtonText}>Регистрация</Text>
                 </TouchableOpacity>
-                <View style={styles.signUpTextView}>
-                    <Text style={styles.signUpText}>У вас нет аккаунта?</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-                        <Text style={[styles.signUpText, {color: '#a1c4fd'}]}>
-                            Создать
-                        </Text>
-                    </TouchableOpacity>
-                </View>
             </LinearGradient>
         </TouchableWithoutFeedback>
     )
@@ -257,17 +250,6 @@ const styles = StyleSheet.create({
         padding: 14,
         marginHorizontal: 10,
         borderRadius: 100,
-    },
-    signUpTextView: {
-        marginTop: 40,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
-    signUpText: {
-        color: '#808e9b',
-        fontSize: 20,
-        fontWeight: '500',
     },
     errorSnackBar: {
         backgroundColor: "#EF5350",
