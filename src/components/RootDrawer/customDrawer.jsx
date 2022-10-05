@@ -38,7 +38,7 @@ const CustomDrawer = (props) => {
                                     </View>
                                     <Image
                                         source={{
-                                            uri: `https://only.tj/avatars/${user?.user?.image}`,
+                                            uri: `${user?.user?.image}`,
                                         }}
                                         style={{width: 60, height: 60, borderRadius: 30}}
                                     />

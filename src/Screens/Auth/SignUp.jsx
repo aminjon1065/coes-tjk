@@ -18,6 +18,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {signUpService} from "../../services/auth/signUp.service";
 import axios from "axios";
 import {apiRequest} from "../../helper/apiRequest";
+import {BASE_URL} from "../../constant";
 
 export default function SignUp({navigation}) {
     const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export default function SignUp({navigation}) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [name, setName] = useState("initState");
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState("");
 
     const emailChange = (val) => {
         setEmail(val)
@@ -67,32 +68,49 @@ export default function SignUp({navigation}) {
         if (pickerResult.cancelled === true) return;
         let localUri = await pickerResult.uri;
         let filename = await localUri.split('/').pop();
-        setImageName(filename)
-        setCredentials({...credintials, image: localUri});
+        setImageName(pickerResult.uri)
+        setCredentials({...credintials, image: pickerResult});
         setImage(pickerResult)
     }
 
     const handleSubmit = async () => {
         Keyboard.dismiss();
+        const uri =
+            Platform.OS === "android"
+                ? image.uri
+                : image.uri.replace("file://", "");
+        const filename = image.uri.split("/").pop();
+        const match = /\.(\w+)$/.exec(filename);
+        const ext = match?.[1];
+        const type = match ? `image/${match[1]}` : `image`;
         const formData = new FormData();
         formData.append("name", name);
         formData.append("email", email);
         formData.append("password", password);
+        formData.append("admin", 0);
         formData.append("image", {
-            uri: credintials.image,
-            type: 'image/jpeg',
-            name: 'profile-picture.jpg'
+            uri,
+            name: `image.${ext}`,
+            type,
         });
         console.log(formData)
-        await axios.post("https://only.tj/api/v1/register", formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        }).then((res) => {
-            console.log(res)
-        }).catch((error) => {
-            console.log(error.response)
-        })
+        try {
+            const { data } = await axios.post(`${BASE_URL}/register`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            if (!data) {
+                alert("Image upload failed!");
+                return;
+            }
+            console.log(data)
+            alert("Image Uploaded");
+        } catch (err) {
+            console.log(err.response);
+            alert("Something went wrong");
+        } finally {
+            console.log("finally")
+            // setImage(undefined);
+        }
     }
     return (
         <TouchableWithoutFeedback
@@ -118,7 +136,6 @@ export default function SignUp({navigation}) {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-
                     <Snackbar
                         style={styles.errorSnackBar}
                         visible={error}
@@ -170,8 +187,8 @@ export default function SignUp({navigation}) {
                         Choose
                     </Text>
                 </TouchableOpacity>
-                {imageName && <Image source={{uri: image.uri}} style={{width: 100, height: 100}}/>}
-                {imageName && <Text>{credintials.image}</Text>}
+                {/*{image.uri && <Image source={{uri: image.uri}} style={{width: 100, height: 100}}/>}*/}
+                {/*{image.uri && <Text>{credintials.image.uri}</Text>}*/}
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
@@ -182,8 +199,7 @@ export default function SignUp({navigation}) {
                 </TouchableOpacity>
             </LinearGradient>
         </TouchableWithoutFeedback>
-    )
-        ;
+    );
 }
 
 const styles = StyleSheet.create({
