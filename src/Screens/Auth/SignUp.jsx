@@ -9,49 +9,38 @@ import {
     TouchableOpacity, Image,
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch} from "react-redux";
-import {signed, signedError} from "../../store/Slice/signInSlice";
-import {signInService} from "../../services/auth/signIn.service";
 import {HelperText, Snackbar} from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
-import {signUpService} from "../../services/auth/signUp.service";
 import axios from "axios";
-import {apiRequest} from "../../helper/apiRequest";
 import {BASE_URL} from "../../constant";
 
 export default function SignUp({navigation}) {
-    const dispatch = useDispatch();
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
-    const [imageName, setImageName] = useState(null);
     const [hidePassword, setHidePassword] = useState(true);
-    const [credintials, setCredentials] = useState({
-        name: "",
-        email: "",
-        password: "",
-        image: {}
-    });
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [name, setName] = useState("initState");
+    const [name, setName] = useState("");
     const [image, setImage] = useState("");
-
+    const [success, setSuccess] = useState(false);
     const emailChange = (val) => {
         setEmail(val)
-        setCredentials({...credintials, email: val});
     };
 
     const nameChange = (val) => {
         setName(val)
-        setCredentials({...credintials, name: val});
     };
 
     const passwordChange = (val) => {
         setPassword(val)
-        setCredentials({...credintials, password: val});
     };
-    const onDismissSnackBar = () => setError(false);
+
+    const onDismissSnackBar = () => {
+        setSuccess(false)
+        navigation.navigate("SignIn")
+    };
+
     const selectAvatar = async () => {
         let permissionResult =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -66,19 +55,16 @@ export default function SignUp({navigation}) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
         });
         if (pickerResult.cancelled === true) return;
-        let localUri = await pickerResult.uri;
-        let filename = await localUri.split('/').pop();
-        setImageName(pickerResult.uri)
-        setCredentials({...credintials, image: pickerResult});
+        // let localUri = await pickerResult.uri;
+        // let filename = await localUri.split('/').pop();
         setImage(pickerResult)
     }
 
     const handleSubmit = async () => {
         Keyboard.dismiss();
-        const uri =
-            Platform.OS === "android"
-                ? image.uri
-                : image.uri.replace("file://", "");
+        const uri = Platform.OS === "android"
+            ? image.uri
+            : image.uri.replace("file://", "");
         const filename = image.uri.split("/").pop();
         const match = /\.(\w+)$/.exec(filename);
         const ext = match?.[1];
@@ -93,23 +79,25 @@ export default function SignUp({navigation}) {
             name: `image.${ext}`,
             type,
         });
-        console.log(formData)
         try {
-            const { data } = await axios.post(`${BASE_URL}/register`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
+            const {data} = await axios.post(`${BASE_URL}/register`, formData, {
+                headers: {"Content-Type": "multipart/form-data"},
             });
+            console.log(data)
             if (!data) {
                 alert("Image upload failed!");
                 return;
             }
-            console.log(data)
-            alert("Image Uploaded");
+            if (data.status) {
+                setSuccess(data.status)
+                setMessage(data.message)
+
+            }
         } catch (err) {
             console.log(err.response);
-            alert("Something went wrong");
+            alert("Ошибка");
         } finally {
             console.log("finally")
-            // setImage(undefined);
         }
     }
     return (
@@ -138,7 +126,7 @@ export default function SignUp({navigation}) {
                 }}>
                     <Snackbar
                         style={styles.errorSnackBar}
-                        visible={error}
+                        visible={success}
                         onDismiss={onDismissSnackBar}
                         action={{
                             label: 'закрыть',
@@ -150,7 +138,7 @@ export default function SignUp({navigation}) {
                     </Snackbar>
                 </View>
                 <TextInput
-                    defaultValue={credintials.name}
+                    defaultValue={name}
                     onChangeText={newText => nameChange(newText)}
                     style={styles.input}
                     placeholder='Имя и Фамилия'
@@ -162,7 +150,7 @@ export default function SignUp({navigation}) {
                     textContentType='name'
                 />
                 <TextInput
-                    defaultValue={credintials.email}
+                    defaultValue={email}
                     onChangeText={newText => emailChange(newText)}
                     style={styles.input}
                     placeholder='Email-адрес'
@@ -174,7 +162,7 @@ export default function SignUp({navigation}) {
                     textContentType='emailAddress'
                 />
                 <TextInput
-                    defaultValue={credintials.password}
+                    defaultValue={password}
                     onChangeText={newPassword => passwordChange(newPassword)}
                     placeholder='Пароль'
                     placeholderTextColor='#808e9b'
@@ -188,7 +176,7 @@ export default function SignUp({navigation}) {
                     </Text>
                 </TouchableOpacity>
                 {/*{image.uri && <Image source={{uri: image.uri}} style={{width: 100, height: 100}}/>}*/}
-                {/*{image.uri && <Text>{credintials.image.uri}</Text>}*/}
+                {image.uri && <Image source={{uri: image.uri}} style={{width: 100, height: 100}}/>}
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
@@ -268,6 +256,6 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     errorSnackBar: {
-        backgroundColor: "#EF5350",
+        backgroundColor: "#53a653",
     }
 });
