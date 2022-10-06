@@ -6,18 +6,20 @@ import {
     TextInput,
     Keyboard,
     TouchableWithoutFeedback,
-    TouchableOpacity, Image,
+    TouchableOpacity, Image
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import {useDispatch} from "react-redux";
-import {HelperText, Snackbar} from "react-native-paper";
+import {ActivityIndicator, HelperText, Snackbar, Button} from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 import {BASE_URL} from "../../constant";
 
 export default function SignUp({navigation}) {
+    const [selectedImage, setSelectedImage] = useState(false);
+    const [loader, setLoader] = useState(false);
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const [hidePassword, setHidePassword] = useState(true);
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -27,7 +29,10 @@ export default function SignUp({navigation}) {
     const emailChange = (val) => {
         setEmail(val)
     };
-
+    const imageDelete = () => {
+        setImage("")
+        setSelectedImage(false)
+    }
     const nameChange = (val) => {
         setName(val)
     };
@@ -40,7 +45,12 @@ export default function SignUp({navigation}) {
         setSuccess(false)
         navigation.navigate("SignIn")
     };
-
+    const onDismissErrorSnackBar = () => {
+        setError(false)
+        setEmail("")
+        setName("")
+        setPassword("")
+    };
     const selectAvatar = async () => {
         let permissionResult =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -58,27 +68,32 @@ export default function SignUp({navigation}) {
         // let localUri = await pickerResult.uri;
         // let filename = await localUri.split('/').pop();
         setImage(pickerResult)
+        setSelectedImage(true)
     }
 
     const handleSubmit = async () => {
+        setLoader(true)
         Keyboard.dismiss();
-        const uri = Platform.OS === "android"
-            ? image.uri
-            : image.uri.replace("file://", "");
-        const filename = image.uri.split("/").pop();
-        const match = /\.(\w+)$/.exec(filename);
-        const ext = match?.[1];
-        const type = match ? `image/${match[1]}` : `image`;
         const formData = new FormData();
+
+        if (image) {
+            const uri = Platform.OS === "android"
+                ? image.uri
+                : image.uri.replace("file://", "");
+            const filename = image.uri.split("/").pop();
+            const match = /\.(\w+)$/.exec(filename);
+            const ext = match?.[1];
+            const type = match ? `image/${match[1]}` : `image`;
+            formData.append("image", {
+                uri,
+                name: `image.${ext}`,
+                type,
+            });
+        }
         formData.append("name", name);
         formData.append("email", email);
         formData.append("password", password);
         formData.append("admin", 0);
-        formData.append("image", {
-            uri,
-            name: `image.${ext}`,
-            type,
-        });
         try {
             const {data} = await axios.post(`${BASE_URL}/register`, formData, {
                 headers: {"Content-Type": "multipart/form-data"},
@@ -86,16 +101,23 @@ export default function SignUp({navigation}) {
             console.log(data)
             if (!data) {
                 alert("Image upload failed!");
+                setLoader(false)
                 return;
             }
             if (data.status) {
                 setSuccess(data.status)
                 setMessage(data.message)
+                setLoader(false)
 
             }
         } catch (err) {
-            console.log(err.response);
-            alert("Ошибка");
+            if (err.response.status === 422) {
+                setError(true)
+                setErrorMessage(err.response.data.message.email)
+                setLoader(false)
+                // alert(err.response.data.message.email);
+            }
+
         } finally {
             console.log("finally")
         }
@@ -111,7 +133,7 @@ export default function SignUp({navigation}) {
                 // colors={['#a1c4fd', '#c2e9fb']}
                 style={styles.container}
             >
-                <Text style={{...styles.loginText, color: "red"}}>Тестовый режим</Text>
+                {/*<Text style={{...styles.loginText, color: "red"}}>Тестовый режим</Text>*/}
                 <Text style={styles.welcomeText}>Добро пожаловать!</Text>
                 <Text style={styles.loginText}>Зарегистрироваться</Text>
                 <HelperText type="error" visible={false}> Введите корректный email-адрес</HelperText>
@@ -126,6 +148,18 @@ export default function SignUp({navigation}) {
                 }}>
                     <Snackbar
                         style={styles.errorSnackBar}
+                        visible={error}
+                        onDismiss={onDismissErrorSnackBar}
+                        action={{
+                            label: 'закрыть',
+                            onPress: () => {
+                                // Do something
+                            },
+                        }}>
+                        {errorMessage}
+                    </Snackbar>
+                    <Snackbar
+                        style={styles.successSnackBar}
                         visible={success}
                         onDismiss={onDismissSnackBar}
                         action={{
@@ -170,20 +204,28 @@ export default function SignUp({navigation}) {
                     secureTextEntry={hidePassword}
                     textContentType='password'
                 />
-                <TouchableOpacity onPress={() => selectAvatar()}>
-                    <Text>
-                        Choose
-                    </Text>
-                </TouchableOpacity>
-                {/*{image.uri && <Image source={{uri: image.uri}} style={{width: 100, height: 100}}/>}*/}
-                {image.uri && <Image source={{uri: image.uri}} style={{width: 100, height: 100}}/>}
+                {
+                    !selectedImage
+                        ?
+                        <Button onPress={selectAvatar} textColor={"green"}>
+                            Выбрать фото
+                        </Button>
+                        :
+                        null
+                }
+                {image.uri && <Image source={{uri: image.uri}}
+                                     style={{width: "100%", height: "20%", marginTop: 10, borderRadius: 10}}/>}
+                {image.uri &&
+                    <Button icon={"delete"} textColor={"red"} mode={"text"} onPress={imageDelete}>Delete</Button>}
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
-                    <Text style={styles.fpText}>Забыли пароль?</Text>
+                    {/*<Text style={styles.fpText}>Забыли пароль?</Text>*/}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-                    <Text style={styles.loginButtonText}>Регистрация</Text>
+                    <Text style={styles.loginButtonText}>Регистрация {loader ?
+                        <ActivityIndicator animating={loader} size="small"
+                                           color="#00ff00"/> : null}</Text>
                 </TouchableOpacity>
             </LinearGradient>
         </TouchableWithoutFeedback>
@@ -255,7 +297,21 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderRadius: 100,
     },
-    errorSnackBar: {
+    successSnackBar: {
         backgroundColor: "#53a653",
-    }
+    },
+    errorSnackBar: {
+        backgroundColor: "#e03b3b",
+    },
+    cancelStyle: {
+        backgroundColor: "red"
+    },
+    deleteImageText: {
+        alignSelf: 'flex-start',
+        // color: '#B33771',
+        color: '#a1c4fd',
+        fontSize: 18,
+        fontWeight: '600',
+        marginTop: 10,
+    },
 });
