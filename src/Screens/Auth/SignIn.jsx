@@ -43,7 +43,11 @@ export default function SignIn({navigation}) {
                 if (response.status === 201) {
                     AsyncStorage.setItem("@token", response.data.token)
                     dispatch(signed(response.data))
-                    navigation.navigate('Что делать?')
+                    if (response.data.data.admin === 1)
+                    {
+                        console.log("admin")
+                        navigation.navigate('Main')
+                    } else navigation.navigate('Что делать?')
                     console.log("success")
                 }
                 if (response.status === 401) {
