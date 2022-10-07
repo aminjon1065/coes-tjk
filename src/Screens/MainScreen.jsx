@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RootDrawer from "../components/RootDrawer";
@@ -8,27 +8,42 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {isAuthService} from "../services/auth/isAuth.service";
 import {useDispatch} from "react-redux";
 import {isAuth, signedError} from "../store/Slice/signInSlice";
+import * as SecureStore from 'expo-secure-store';
+import {apiRequest} from "../helper/apiRequest";
 
 const Stack = createNativeStackNavigator();
 
-
 const App = () => {
+    const [token, setToken] = useState("");
     const dispatch = useDispatch()
-    const storageToken = AsyncStorage.getItem('@token')
-    useEffect(() => {
-        if (storageToken) {
-            isAuthService(storageToken).then((response) => {
-                if (response.status === 200) {
-                    dispatch(isAuth(response.data))
-                }
-            }).catch(error => {
-                if (error.response.status === 401) {
-                    dispatch(signedError)
-                    AsyncStorage.removeItem('@token')
-                }
-            })
+    const storageToken = async () => {
+        const tokenItem = await AsyncStorage.getItem('@token')
+        setToken(tokenItem)
+    }
+    useEffect( () => {
+        const checkAuth = async ()=>{
+            storageToken()
+            console.log(token)
+            if (token) {
+                await apiRequest.get('/isAuth', {
+                    headers: {Authorization: `Bearer ${token}`}
+                })
+                console.log("if")
+                isAuthService(token).then((response) => {
+                    console.log("isAuth")
+                    if (response.status === 200) {
+                        dispatch(isAuth(response.data))
+                    }
+                }).catch(error => {
+                    if (error.response.status === 401) {
+                        dispatch(signedError)
+                        AsyncStorage.removeItem('@token')
+                    }
+                })
+            }
         }
-    }, [storageToken, dispatch])
+        checkAuth()
+    }, [token])
     return (
         <>
             <NavigationContainer>

@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash-app.png",
       "resizeMode": "contain",
-      "backgroundColor": "#3949ab"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "coes.tj"
+      "package": "coes.tjk"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -23,7 +23,7 @@ export default function SignIn({navigation}) {
     const [message, setMessage] = useState("");
     // const [checked, setChecked] = React.useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
+    const [token, setToken] = useState("");
     const [credintials, setCredentials] = useState({
         email: "",
         password: "",
@@ -35,16 +35,20 @@ export default function SignIn({navigation}) {
         }
 
     };
+    const saveToken = async (key, value) => {
+        const tokenItem = await AsyncStorage.setItem(key, value)
+        setToken(tokenItem)
+    }
+    console.log(token)
     const handleSubmit = async () => {
         Keyboard.dismiss();
         try {
             await signInService(credintials).then((response) => {
 
                 if (response.status === 201) {
-                    AsyncStorage.setItem("@token", response.data.token)
+                    saveToken("@token", response.data.token)
                     dispatch(signed(response.data))
-                    if (response.data.data.admin === 1)
-                    {
+                    if (response.data.data.admin === 1) {
                         console.log("admin")
                         navigation.navigate('Main')
                     } else navigation.navigate('Что делать?')
