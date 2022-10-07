@@ -8,6 +8,7 @@ import Glavnoe from "../../Screens/glavnoe";
 import Number from "../number";
 import CustomDrawer from "./customDrawer";
 import WhatToDo from "../../Screens/WhatToDo";
+import HomeScreen from "../../Screens/HomeScreen";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ const Index = ({navigation}) => {
                 }}
                 drawerContent={props => <CustomDrawer {...props} />}
             >
+                <Drawer.Screen name="HomePage" component={HomeScreen}/>
                 <Drawer.Screen name="Что делать?" component={WhatToDo}/>
                 <Drawer.Screen name="Главная" component={Glavnoe}/>
                 <Drawer.Screen name="Main" component={Main}/>

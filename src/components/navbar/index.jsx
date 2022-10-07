@@ -77,7 +77,8 @@ export default Index;
 const styles = StyleSheet.create({
     navbar: {
         flexDirection: "row",
-        backgroundColor: "#3949ab",
+        // backgroundColor: "#3949ab",
+        backgroundColor: "#336091",
         height: 70,
         paddingBottom: 10,
         padding: 10,
