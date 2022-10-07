@@ -20,26 +20,26 @@ const App = () => {
         const tokenItem = await AsyncStorage.getItem('@token')
         setToken(tokenItem)
     }
-    useEffect( () => {
-        const checkAuth = async ()=>{
+    const deleteToken = async () => {
+        await AsyncStorage.removeItem('@token')
+    }
+    useEffect(() => {
+        const checkAuth = async () => {
             storageToken()
-            console.log(token)
             if (token) {
-                await apiRequest.get('/isAuth', {
-                    headers: {Authorization: `Bearer ${token}`}
-                })
-                console.log("if")
-                isAuthService(token).then((response) => {
-                    console.log("isAuth")
-                    if (response.status === 200) {
-                        dispatch(isAuth(response.data))
-                    }
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        dispatch(signedError)
-                        AsyncStorage.removeItem('@token')
-                    }
-                })
+                try {
+                    await apiRequest.get('/isAuth', {
+                        headers: {Authorization: `Bearer ${token}`}
+                    })
+                    isAuthService(token).then((response) => {
+                        if (response.status === 200) {
+                            dispatch(isAuth(response.data))
+                        }
+                    })
+                } catch (e) {
+                    dispatch(signedError)
+                    await deleteToken()
+                }
             }
         }
         checkAuth()

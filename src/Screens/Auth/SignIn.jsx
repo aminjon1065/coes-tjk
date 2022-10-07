@@ -39,7 +39,6 @@ export default function SignIn({navigation}) {
         const tokenItem = await AsyncStorage.setItem(key, value)
         setToken(tokenItem)
     }
-    console.log(token)
     const handleSubmit = async () => {
         Keyboard.dismiss();
         try {
@@ -49,10 +48,8 @@ export default function SignIn({navigation}) {
                     saveToken("@token", response.data.token)
                     dispatch(signed(response.data))
                     if (response.data.data.admin === 1) {
-                        console.log("admin")
                         navigation.navigate('Main')
                     } else navigation.navigate('Что делать?')
-                    console.log("success")
                 }
                 if (response.status === 401) {
                     console.log("401")
