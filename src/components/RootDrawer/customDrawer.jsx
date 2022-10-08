@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {
     DrawerContentScrollView,
     DrawerItemList,
@@ -65,11 +65,11 @@ const CustomDrawer = (props) => {
                             Войти
                         </Button>
                 }
-                {/*<TouchableOpacity*/}
-                {/*    style={styles.footer}*/}
-                {/*>*/}
-                {/*    <Text>Click</Text>*/}
-                {/*</TouchableOpacity>*/}
+                <TouchableOpacity
+                    style={styles.footer}
+                >
+                    <Text>Выйти</Text>
+                </TouchableOpacity>
             </View>
         </>
     );

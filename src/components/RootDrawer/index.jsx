@@ -9,6 +9,7 @@ import Number from "../number";
 import CustomDrawer from "./customDrawer";
 import WhatToDo from "../../Screens/WhatToDo";
 import HomeScreen from "../../Screens/HomeScreen";
+import GO from "../../Screens/GO";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -28,6 +29,14 @@ const Index = ({navigation}) => {
                 <Drawer.Screen name="Главная" component={Glavnoe}/>
                 <Drawer.Screen name="Main" component={Main}/>
                 <Drawer.Screen name="About" component={About}/>
+                <Stack.Screen name={"GO"}  component={GO}
+                              options={{
+                                  drawerItemStyle: {
+                                      display: "none",
+                                  },
+                                  drawerLabel:"Гражданская оборона"
+                              }}
+                />
             </Drawer.Navigator>
             <Number/>
         </>

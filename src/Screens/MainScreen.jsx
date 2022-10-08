@@ -8,8 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {isAuthService} from "../services/auth/isAuth.service";
 import {useDispatch} from "react-redux";
 import {isAuth, signedError} from "../store/Slice/signInSlice";
-import * as SecureStore from 'expo-secure-store';
 import {apiRequest} from "../helper/apiRequest";
+import GO from "./GO";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +57,7 @@ const App = () => {
                     />
                     <Stack.Screen name={"SignIn"} component={SignIn}/>
                     <Stack.Screen name={"SignUp"} component={SignUp}/>
+                    {/*<Stack.Screen name={"Гражданская оборона"} component={GO} />*/}
                 </Stack.Navigator>
             </NavigationContainer>
         </>
