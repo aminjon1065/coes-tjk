@@ -142,9 +142,7 @@ export default function SignIn({navigation}) {
                 }}>
                     <Text style={styles.fpText}>Забыли пароль?</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.loginButton} onPress={() => {
-                    handleSubmit()
-                }}>
+                <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
                     <Text style={styles.loginButtonText}>Войти</Text>
                 </TouchableOpacity>
                 <View style={styles.signUpTextView}>
