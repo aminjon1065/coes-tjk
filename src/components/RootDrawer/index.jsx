@@ -24,17 +24,19 @@ const Index = ({navigation}) => {
                 }}
                 drawerContent={props => <CustomDrawer {...props} />}
             >
-                <Drawer.Screen name="HomePage" component={HomeScreen}/>
+                <Drawer.Screen name="HomeScreen" component={HomeScreen} options={{
+                    drawerLabel: "Главная"
+                }}/>
                 <Drawer.Screen name="Что делать?" component={WhatToDo}/>
                 <Drawer.Screen name="Главная" component={Glavnoe}/>
                 <Drawer.Screen name="Main" component={Main}/>
                 <Drawer.Screen name="About" component={About}/>
-                <Stack.Screen name={"GO"}  component={GO}
+                <Stack.Screen name={"GO"} component={GO}
                               options={{
                                   drawerItemStyle: {
                                       display: "none",
                                   },
-                                  drawerLabel:"Гражданская оборона"
+                                  drawerLabel: "Гражданская оборона"
                               }}
                 />
             </Drawer.Navigator>
