@@ -9,7 +9,7 @@ const FirstBlock = ({navigation}) => {
                 <View style={styles.block}>
                     <TouchableOpacity
                         style={{alignItems: "center"}}
-                        onPress={() => navigation.navigate("whatToDo")}
+                        onPress={() => navigation.navigate("WhatToDo")}
                     >
                         <Icon name={"ios-help-circle-outline"} size={50} color={"#516395"}/>
                         <Text>

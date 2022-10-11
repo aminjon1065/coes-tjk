@@ -10,7 +10,7 @@ const Index = ({navigation}) => {
             <View>
                 <FirstBlock navigation={navigation}/>
                 <View style={styles.listContainer}>
-                    <TouchableOpacity onPress={()=>navigation.navigate("GO")}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("HomeScreenTest")}>
                         <Text style={styles.listText}>КЧС Рекомендует</Text>
                     </TouchableOpacity>
                     <Divider/>
