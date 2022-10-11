@@ -2,14 +2,14 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const FirstBlock = () => {
+const FirstBlock = ({navigation}) => {
     return (
         <>
             <View style={styles.blockContainer}>
                 <View style={styles.block}>
                     <TouchableOpacity
                         style={{alignItems: "center"}}
-                        onPress={() => console.log("Что делать?")}
+                        onPress={() => navigation.navigate("whatToDo")}
                     >
                         <Icon name={"ios-help-circle-outline"} size={50} color={"#516395"}/>
                         <Text>

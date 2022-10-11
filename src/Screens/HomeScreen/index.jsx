@@ -8,7 +8,7 @@ const Index = ({navigation}) => {
     return (
         <>
             <View>
-                <FirstBlock/>
+                <FirstBlock navigation={navigation}/>
                 <View style={styles.listContainer}>
                     <TouchableOpacity onPress={()=>navigation.navigate("GO")}>
                         <Text style={styles.listText}>КЧС Рекомендует</Text>

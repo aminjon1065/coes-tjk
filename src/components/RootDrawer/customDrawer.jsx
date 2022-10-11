@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {
-    DrawerContentScrollView,
-    DrawerItemList,
-} from '@react-navigation/drawer';
+import {DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
 import {Button} from "react-native-paper";
 import {useSelector} from "react-redux";
 
@@ -54,7 +51,11 @@ const CustomDrawer = (props) => {
                 {
                     user.authentificated
                         ?
-                        null
+                        <TouchableOpacity
+                            style={styles.footer}
+                        >
+                            <Text>Выйти</Text>
+                        </TouchableOpacity>
                         :
                         <Button
                             mode={"text"}
@@ -65,11 +66,6 @@ const CustomDrawer = (props) => {
                             Войти
                         </Button>
                 }
-                <TouchableOpacity
-                    style={styles.footer}
-                >
-                    <Text>Выйти</Text>
-                </TouchableOpacity>
             </View>
         </>
     );

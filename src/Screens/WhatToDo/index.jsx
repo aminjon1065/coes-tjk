@@ -1,15 +1,10 @@
 import React from 'react';
-import {Text, View} from "react-native";
-import {useSelector} from "react-redux";
+import {View} from "react-native";
 
 const Index = () => {
-    const selector = useSelector(state => state.signIn)
     return (
         <View>
-            <Text>
-                {selector?.user?.name}
-                Categories
-            </Text>
+
         </View>
     );
 };

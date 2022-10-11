@@ -27,7 +27,7 @@ const Index = ({navigation}) => {
                 <Drawer.Screen name="HomeScreen" component={HomeScreen} options={{
                     drawerLabel: "Главная"
                 }}/>
-                <Drawer.Screen name="Что делать?" component={WhatToDo}/>
+                <Drawer.Screen name="whatToDo" component={WhatToDo} options={{drawerLabel: "Что делать?"}}/>
                 <Drawer.Screen name="Главная" component={Glavnoe}/>
                 <Drawer.Screen name="Main" component={Main}/>
                 <Drawer.Screen name="About" component={About}/>
@@ -39,6 +39,7 @@ const Index = ({navigation}) => {
                                   drawerLabel: "Гражданская оборона"
                               }}
                 />
+
             </Drawer.Navigator>
             <Number/>
         </>
