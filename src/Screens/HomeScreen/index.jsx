@@ -18,6 +18,14 @@ const Index = ({navigation}) => {
                         <Text style={styles.listText}>Гражданская оборона</Text>
                     </TouchableOpacity>
                     <Divider/>
+                    <TouchableOpacity onPress={()=>navigation.navigate("terrorism")}>
+                        <Text style={styles.listText}>Угроза терроризма</Text>
+                    </TouchableOpacity>
+                    <Divider/>
+                    <TouchableOpacity onPress={()=>navigation.navigate("encyclopedia")}>
+                        <Text style={styles.listText}>Энциклопедия</Text>
+                    </TouchableOpacity>
+                    <Divider/>
                 </View>
             </View>
         </>
