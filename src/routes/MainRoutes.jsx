@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from "react-navigation-stack";
 import {createAppContainer} from 'react-navigation'
 import App from "../Screens/main";
-import About from "../Screens/about";
+import About from "../Screens/About";
 
 const screens = {
     Main: {

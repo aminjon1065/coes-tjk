@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import HomeScreen from "../HomeScreen";
+import HomeScreen from "./HomeScreen";
 import WhatToDo from "../WhatToDo";
 import CoESRecommended from "./CoESRecommended";
 import Terrorism from "./Terrorism";

@@ -2,15 +2,32 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
 import {Button} from "react-native-paper";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {logOut} from "../../store/Slice/signInSlice";
+import {apiRequest} from "../../helper/apiRequest";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomDrawer = (props) => {
     const [today, setToday] = useState(null);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const today = new Date().toISOString().slice(0, 10)
         setToday(today)
     }, []);
     const user = useSelector(state => state.signIn)
+    const token = AsyncStorage.getItem("@token")
+    const logOutFC = async () => {
+        await apiRequest.post("/logout", {}, {
+            headers: {Authorization: `Bearer ${token}`}
+        }).then((res) => {
+            AsyncStorage.removeItem("@token")
+            console.log(res)
+        }).catch((error) => {
+            console.log(error)
+        })
+        dispatch(logOut())
+    }
     return (
         <>
             <View style={{flex: 1}}>
@@ -51,11 +68,14 @@ const CustomDrawer = (props) => {
                 {
                     user.authentificated
                         ?
-                        <TouchableOpacity
-                            style={styles.footer}
+                        <Button
+                            mode={"text"}
+                            textColor={"#3949ab"}
+                            icon={"logout"}
+                            onPress={logOutFC}
                         >
                             <Text>Выйти</Text>
-                        </TouchableOpacity>
+                        </Button>
                         :
                         <Button
                             mode={"text"}

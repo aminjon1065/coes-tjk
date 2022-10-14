@@ -1,10 +1,13 @@
 import React from 'react';
 import {Text} from "react-native-paper";
+import {View} from "react-native";
 
 const Index = () => {
     return (
         <>
-            <Text>About</Text>
+            <View>
+                <Text>About</Text>
+            </View>
         </>
     );
 };

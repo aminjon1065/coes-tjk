@@ -42,7 +42,6 @@ const Index = ({navigation}) => {
         }
         getLocation()
     }, []);
-
     return (
         <View style={styles.navbar}>
             <Button
@@ -53,7 +52,7 @@ const Index = ({navigation}) => {
                     <Icon name={"menu"} size={26} color={"white"}/>
                 </Text>
             </Button>
-            <TouchableOpacity onPress={() => Linking.openURL("https://khf.tj")}>
+            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <Image source={logo} style={styles.logo}/>
             </TouchableOpacity>
             <View style={styles.weatherContainer}>

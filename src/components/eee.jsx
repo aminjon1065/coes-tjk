@@ -1,7 +1,7 @@
 import {DrawerLayoutAndroid, Text, View} from "react-native";
 import {Button} from "react-native-paper";
 import Main from "../Screens/main";
-import About from "../Screens/about";
+import About from "../Screens/About";
 
 const drawer = useRef(null);
 const [drawerPosition, setDrawerPosition] = useState("left");

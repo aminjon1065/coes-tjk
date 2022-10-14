@@ -47,9 +47,7 @@ export default function SignIn({navigation}) {
                 if (response.status === 201) {
                     saveToken("@token", response.data.token)
                     dispatch(signed(response.data))
-                    if (response.data.data.admin === 1) {
-                        navigation.navigate('Main')
-                    } else navigation.navigate('Что делать?')
+                    navigation.navigate('HomeScreen')
                 }
                 if (response.status === 401) {
                     console.log("401")

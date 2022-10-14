@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
-import FirstBlock from "../../components/homeComponents/firstBlock";
+import FirstBlock from "../../../components/homeComponents/firstBlock";
 import {Divider} from "@rneui/base";
 
 
