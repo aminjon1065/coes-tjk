@@ -5,7 +5,7 @@ import {name as appName} from './app.json';
 import App from './src/Screens/MainScreen'
 import {Provider} from "react-redux";
 import {store} from "./src/store";
-
+import i18n from "./src/languages/i18n";
 
 export default function MainApp() {
     return (

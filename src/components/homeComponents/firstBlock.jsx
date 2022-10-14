@@ -1,8 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import {useTranslation} from "react-i18next";
 
 const FirstBlock = ({navigation}) => {
+    const {t} = useTranslation();
     return (
         <>
             <View style={styles.blockContainer}>
@@ -13,7 +15,7 @@ const FirstBlock = ({navigation}) => {
                     >
                         <Icon name={"ios-help-circle-outline"} size={50} color={"#516395"}/>
                         <Text>
-                            Что делать?
+                            {t("HomeScreen.FirstBlock.WhatToDo")}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -24,7 +26,7 @@ const FirstBlock = ({navigation}) => {
                     >
                         <Icon name={"ios-warning-outline"} size={50} color={"#516395"}/>
                         <Text>
-                            Первая помощь
+                            {t("HomeScreen.FirstBlock.Help")}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -35,7 +37,7 @@ const FirstBlock = ({navigation}) => {
                     >
                         <Icon name={"map-outline"} size={50} color={"#516395"}/>
                         <Text>
-                            Карта рисков
+                            {t("HomeScreen.FirstBlock.RiskMap")}
                         </Text>
                     </TouchableOpacity>
                 </View>

@@ -17,19 +17,19 @@ const Index = () => {
                 headerShown: false
             }}>
                 <Stack.Screen name={"HomeScreen"} component={HomeScreen} options={{
-                    headerShown:false
+                    headerShown: false
                 }}/>
                 <Stack.Screen name={"HomeScreenTest"} component={CoESRecommended} options={{
-                    headerTitle:"КЧС рекомендует"
+                    headerTitle: "КЧС рекомендует"
                 }}/>
                 <Stack.Screen name={"WhatToDo"} component={WhatToDo} options={{
-                    headerTitle:"Что делать"
+                    headerTitle: "Что делать"
                 }}/>
                 <Stack.Screen name={"terrorism"} component={Terrorism} options={{
-                    headerTitle:"Угроза терроризма"
+                    headerTitle: "Угроза терроризма"
                 }}/>
                 <Stack.Screen name={"encyclopedia"} component={Encyclopedia} options={{
-                    headerTitle:"Энциклопедия"
+                    headerTitle: "Энциклопедия"
                 }}/>
             </Stack.Navigator>
         </>

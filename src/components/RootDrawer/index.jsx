@@ -6,10 +6,13 @@ import CustomDrawer from "./customDrawer";
 import HomeStack from "../../Screens/HomeStack";
 import About from "../../Screens/About";
 import Icon from "react-native-vector-icons/Ionicons";
+import {useTranslation} from "react-i18next";
 
 const Drawer = createDrawerNavigator();
 
 const Index = ({navigation}) => {
+    const {t} = useTranslation();
+
     return (
         <>
             <Navbar navigation={navigation}/>
@@ -20,13 +23,13 @@ const Index = ({navigation}) => {
                 drawerContent={props => <CustomDrawer {...props} />}
             >
                 <Drawer.Screen name={"HomeStack"} component={HomeStack} options={{
-                    drawerLabel: "Главная",
+                    drawerLabel: t("Drawer.Main"),
                     drawerIcon: () => (
                         <Icon name={"home"} size={24} color={"#336091"}/>
                     )
                 }}/>
                 <Drawer.Screen name={"About"} component={About} options={{
-                    drawerLabel: "О приложении",
+                    drawerLabel: t("Drawer.About"),
                     drawerIcon: () => (
                         <Icon name={"information-circle"} size={24} color={"#336091"}/>
                     )

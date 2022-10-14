@@ -1,0 +1,24 @@
+{
+  "translation": {
+    "Drawer": {
+      "Main": "Главная",
+      "About": "О приложении",
+      "LogIn": "Войти",
+      "LogOut": "Выйти"
+    },
+    "HomeScreen": {
+      "FirstBlock": {
+        "WhatToDo": "Что делать?",
+        "Help": "Первая помощь",
+        "RiskMap": "Карта рисков"
+      },
+      "CoESRecommended": "КЧС Рекомендует",
+      "GO": "Гражданская оборона",
+      "terrorism": {
+        "title": "Угроза терроризма",
+        "1": ""
+      },
+      "Encyclopedia": "Энциклопедия"
+    }
+  }
+}

@@ -2,28 +2,31 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
 import FirstBlock from "../../../components/homeComponents/firstBlock";
 import {Divider} from "@rneui/base";
+import {useTranslation} from "react-i18next";
 
 
 const Index = ({navigation}) => {
+    const {t} = useTranslation();
+
     return (
         <>
             <View>
                 <FirstBlock navigation={navigation}/>
                 <View style={styles.listContainer}>
-                    <TouchableOpacity onPress={()=>navigation.navigate("HomeScreenTest")}>
-                        <Text style={styles.listText}>КЧС Рекомендует</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("HomeScreenTest")}>
+                        <Text style={styles.listText}>{t('HomeScreen.CoESRecommended')}</Text>
                     </TouchableOpacity>
                     <Divider/>
                     <TouchableOpacity>
-                        <Text style={styles.listText}>Гражданская оборона</Text>
+                        <Text style={styles.listText}>{t("HomeScreen.GO")}</Text>
                     </TouchableOpacity>
                     <Divider/>
-                    <TouchableOpacity onPress={()=>navigation.navigate("terrorism")}>
-                        <Text style={styles.listText}>Угроза терроризма</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("terrorism")}>
+                        <Text style={styles.listText}>{t("HomeScreen.terrorism.title")}</Text>
                     </TouchableOpacity>
                     <Divider/>
-                    <TouchableOpacity onPress={()=>navigation.navigate("encyclopedia")}>
-                        <Text style={styles.listText}>Энциклопедия</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("encyclopedia")}>
+                        <Text style={styles.listText}>{t("HomeScreen.Encyclopedia")}</Text>
                     </TouchableOpacity>
                     <Divider/>
                 </View>

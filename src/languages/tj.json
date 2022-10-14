@@ -1,0 +1,24 @@
+{
+  "translation": {
+    "Drawer": {
+      "Main": "Асосӣ",
+      "About": "Дар бораи барнома",
+      "LogIn": "Даромад",
+      "LogOut": "Баромад"
+    },
+    "HomeScreen": {
+      "FirstBlock": {
+        "WhatToDo": "Чи бояд кард?",
+        "Help": "Кумаки аввал",
+        "RiskMap": "Харитаи хатар"
+      },
+      "CoESRecommended": "КҲФ тавсия медиҳад",
+      "GO": "Мудофиаи гражданӣ",
+      "terrorism": {
+        "title": "Таҳдиди терроризм",
+        "1": ""
+      },
+      "Encyclopedia": "Энсиклопедия"
+    }
+  }
+}

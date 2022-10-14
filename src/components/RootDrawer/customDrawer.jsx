@@ -1,16 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
 import {Button} from "react-native-paper";
 import {useDispatch, useSelector} from "react-redux";
 import {logOut} from "../../store/Slice/signInSlice";
 import {apiRequest} from "../../helper/apiRequest";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useTranslation} from "react-i18next";
+import {SegmentedButtons} from 'react-native-paper';
+import tj from "./../../assets/images/flags/tj.png"
+import ru from "./../../assets/images/flags/ru.png"
 
 const CustomDrawer = (props) => {
     const [today, setToday] = useState(null);
+    const [lang, setLang] = useState("");
     const dispatch = useDispatch();
-
+    const {t, i18n} = useTranslation();
     useEffect(() => {
         const today = new Date().toISOString().slice(0, 10)
         setToday(today)
@@ -28,19 +33,47 @@ const CustomDrawer = (props) => {
         })
         dispatch(logOut())
     }
+    const changeTj = () => {
+        setLang("tj")
+        i18n.changeLanguage("tj")
+        props.navigation.closeDrawer()
+    }
+    const changeRu = () => {
+        setLang("ru")
+        i18n.changeLanguage("ru")
+        props.navigation.closeDrawer()
+
+    }
     return (
         <>
             <View style={{flex: 1}}>
                 <DrawerContentScrollView {...props}>
+                    <View style={styles.containerLang}>
+                        <SegmentedButtons
+                            style={styles.langButtons}
+                            buttons={[
+                                {
+                                    value: "ru",
+                                    // label: "русский",
+                                    icon: ru,
+                                    onPress: changeRu
+                                },
+                                {
+                                    value: "tj",
+                                    // label: "тоҷикӣ",
+                                    icon: tj,
+                                    onPress: changeTj
+
+                                }
+                            ]}
+                            value={lang}
+                            onValueChange={setLang}
+                            density="small"
+
+                        />
+                    </View>
                     <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: 20,
-                            backgroundColor: '#f6f6f6',
-                            marginBottom: 20,
-                        }}
+                        style={styles.container}
                     >
                         {
                             user.authentificated
@@ -58,9 +91,11 @@ const CustomDrawer = (props) => {
                                     />
                                 </>
                                 :
-                                <Text style={styles.date}>
-                                    {today}
-                                </Text>
+                                <View>
+                                    <Text style={styles.date}>
+                                        {today}
+                                    </Text>
+                                </View>
                         }
                     </View>
                     <DrawerItemList {...props} />
@@ -74,7 +109,7 @@ const CustomDrawer = (props) => {
                             icon={"logout"}
                             onPress={logOutFC}
                         >
-                            <Text>Выйти</Text>
+                            <Text>{t("Drawer.LogOut")}</Text>
                         </Button>
                         :
                         <Button
@@ -83,7 +118,7 @@ const CustomDrawer = (props) => {
                             icon={"login"}
                             onPress={() => props.navigation.navigate('SignIn')}
                         >
-                            Войти
+                            {t("Drawer.LogIn")}
                         </Button>
                 }
             </View>
@@ -94,6 +129,14 @@ const CustomDrawer = (props) => {
 export default CustomDrawer;
 
 const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: '#f6f6f6',
+        marginBottom: 20,
+    },
     footer: {
         position: 'absolute',
         right: 0,
@@ -106,5 +149,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+    containerLang: {
+        justifyContent: "center",
+        backgroundColor: '#f6f6f6',
+    },
+    langButtons: {
+        alignSelf: "center"
     }
 })
