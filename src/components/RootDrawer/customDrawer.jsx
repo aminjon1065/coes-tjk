@@ -33,16 +33,17 @@ const CustomDrawer = (props) => {
         })
         dispatch(logOut())
     }
-    const changeTj = () => {
+    const changeTj = async () => {
         setLang("tj")
         i18n.changeLanguage("tj")
+        await AsyncStorage.setItem("lng", "tj")
         props.navigation.closeDrawer()
     }
-    const changeRu = () => {
+    const changeRu = async () => {
         setLang("ru")
         i18n.changeLanguage("ru")
+        await AsyncStorage.setItem("lng", "ru")
         props.navigation.closeDrawer()
-
     }
     return (
         <>

@@ -12,7 +12,6 @@ const Drawer = createDrawerNavigator();
 
 const Index = ({navigation}) => {
     const {t} = useTranslation();
-
     return (
         <>
             <Navbar navigation={navigation}/>

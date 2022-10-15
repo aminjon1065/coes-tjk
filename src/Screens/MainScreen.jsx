@@ -9,12 +9,14 @@ import {isAuthService} from "../services/auth/isAuth.service";
 import {useDispatch} from "react-redux";
 import {isAuth, signedError} from "../store/Slice/signInSlice";
 import {apiRequest} from "../helper/apiRequest";
+import {useTranslation} from "react-i18next";
 
 const Stack = createNativeStackNavigator();
-
 const App = () => {
     const [token, setToken] = useState("");
+    const [lng, setLng] = useState("");
     const dispatch = useDispatch()
+    const {i18n} = useTranslation();
     const storageToken = async () => {
         const tokenItem = await AsyncStorage.getItem('@token')
         setToken(tokenItem)
@@ -22,7 +24,14 @@ const App = () => {
     const deleteToken = async () => {
         await AsyncStorage.removeItem('@token')
     }
+    const getLng = async () => {
+        const storageLng = await AsyncStorage.getItem("lng");
+        setLng(storageLng)
+        console.log(lng)
+    }
     useEffect(() => {
+        getLng()
+        i18n.changeLanguage(lng)
         const checkAuth = async () => {
             storageToken()
             if (token) {

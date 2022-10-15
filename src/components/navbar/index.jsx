@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import logo from './../../assets/images/logo.png'
 import {Button, FAB} from "react-native-paper";
-import {Linking} from 'react-native'
+// import {Linking} from 'react-native'
 import {DrawerActions} from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';

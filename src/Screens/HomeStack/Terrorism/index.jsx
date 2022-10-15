@@ -1,81 +1,86 @@
 import React from 'react';
 import {Image, Text, View, StyleSheet, ScrollView} from "react-native";
 import img from "./../../../assets/images/terrorism/terrorism.webp"
+import {useTranslation} from "react-i18next";
 
 const Index = () => {
+    const {t} = useTranslation();
+
     return (
         <View style={styles.container}>
             <ScrollView>
                 <Text style={styles.title}>
-                    Меры безопасности при угрозе проведения террористических актов
+                    {t("ThreatTerrorism.title")}
                 </Text>
                 <Image source={img} style={styles.img}/>
 
                 <Text style={styles.text}>
                     {
-                        `  Будьте предельно внимательны к окружающим Вас подозрительным предметам. Не прикасайтесь к ним. О данных предметах сообщите компетентным органам.`
-                    }
-                </Text>
-                <Text style={styles.text}>
-                    {`  Если Вы обнаружили забытую или бесхозную вещь в общественном транспорте, опросите людей, находящихся рядом. Постарайтесь установить, чья она или кто мог ее оставить. Если хозяин не установлен, немедленно сообщите о Находке водителю (машинисту).`}
-                </Text>
-                <Text style={styles.text}>
-                    {
-                        `  Если Вы обнаружили подозрительный предмет в подъезде своего дома опросите соседей, ВОЗМОЖНО, OH принадлежат им. Если владелец не установлен немедленно сообщите о находке в Ваше отделение милиции.`
+                        t("ThreatTerrorism.1")
                     }
                 </Text>
                 <Text style={styles.text}>
                     {
-                        `  Если Вы обнаружили подозрительный предмет в учреждении, немедленно сообщите о находке администрации.`
+                        t("ThreatTerrorism.2")
+                    }
+                </Text>
+                <Text style={styles.text}>
+                    {
+                        t("ThreatTerrorism.3")
+                    }
+                </Text>
+                <Text style={styles.text}>
+                    {
+                        t("ThreatTerrorism.4")
                     }
                 </Text>
                 <View>
-                    <Text>{`Во всех перечисленных случаях:`}</Text>
-                    <Text style={styles.ulText}>{`   • не трогайте, не вскрывайте и не передвигайте находку;`}</Text>
-                    <Text style={styles.ulText}>{`   • зафиксируйте время обнаружения Находки;`}</Text>
+                    <Text>{t("ThreatTerrorism.5")}</Text>
+                    <Text style={styles.ulText}>{t("ThreatTerrorism.6")}</Text>
+                    <Text style={styles.ulText}>{t("ThreatTerrorism.7")}</Text>
                     <Text
-                        style={styles.ulText}>{`   • постарайтесь сделать так, чтобы люди отошли как можно дальше от опасной находки;`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.8")}</Text>
                     <Text
-                        style={styles.ulText}>{`   • обязательно дождитесь прибытия оперативно-следственной группы, помните Вы являетесь самым важным очевидцем.`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.9")}</Text>
                 </View>
                 <Text style={{marginVertical: 3}}>
-                    {`   Знайте, что внешний вид предмета может скрывать настоящее назначение. В качестве камуфляжа для взрывных устройств используются обычные бытовые предметы: сумки, пакеты, свертки, коробки, игрушки и т. п`}
+                    {t("ThreatTerrorism.10")}
                 </Text>
                 <View>
-                    <Text>{`При получении информации об угрозе террористического акта обезопасьте свое жилище:`}</Text>
+                    <Text>{t("ThreatTerrorism.11")}</Text>
                     <Text
-                        style={styles.ulText}>{`    • уберите пожароопасные предметы - старые запасы красок, лаков, бензина и т.п.;`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.12")}</Text>
                     <Text
-                        style={styles.ulText}>{`    • уберите с окон горшки с цветами (поставьте их на пол);`}</Text>
-                    <Text style={styles.ulText}>{`    • выключите газ, потушите огонь в печках, каминах;`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.13")}</Text>
+                    <Text style={styles.ulText}>{t("ThreatTerrorism.14")}</Text>
                     <Text
-                        style={styles.ulText}>{`    • подготовьте аварийные источники освещения (фонари и т. п.); • создайте запас медикаментов и 2-3 суточный запас питьевой воды и питания;`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.15")}</Text>
                     <Text
-                        style={styles.ulText}>{`    • задерните шторы на окнах защитит Вас от повреждения осколками стекла.`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.16")}</Text>
                 </View>
                 <View>
                     <Text style={{marginVertical: 5}}>
-                        {`  Получив сообщение представителей властей правоохранительных органов о начале от эвакуации, соблюдайте спокойствие и четко выполняйте их команды. Если Вы находитесь в квартире, выполните следующие действия:`}
+                        {t("ThreatTerrorism.17")}
                     </Text>
-                    <Text style={styles.ulText}>{`   • возьмите личные Документы, Деньги и ценности;`}</Text>
-                    <Text style={styles.ulText}>{`   • отключите электричество, воду и газ;`}</Text>
+                    <Text style={styles.ulText}>{t("ThreatTerrorism.18")}</Text>
+                    <Text style={styles.ulText}>{t("ThreatTerrorism.19")}</Text>
                     <Text
-                        style={styles.ulText}>{`   • окажите помощь в эвакуации Пожилых И ТЯЖЕЛО больных людей;`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.20")}</Text>
                     <Text
-                        style={styles.ulText}>{`   • обязательно закройте входную дверь на замок это защитит квартиру от возможного проникновения мародеров.`}</Text>
+                        style={styles.ulText}>{t("ThreatTerrorism.21")}</Text>
                 </View>
                 <View>
-                    <Text>{`    Не допускайте паники, истерик и спешки. Помещение покидайте организованно.`}</Text>
-                    <Text>{`    Возвращение в покинутое помещение только осуществляйте получения разрешения ответственных лиц.`}</Text>
-                    <Text>{`    Помните, что от согласованности и четкости Ваших действий будет зависеть жизнь и здоровье многих людей.`}</Text>
-                    <Text style={styles.ulText}>{` • по возможности реже пользуйтесь общественным транспортом;`}</Text>
-                    <Text style={styles.ulText}>{` • отложите посещение общественных мест.`}</Text>
+                    <Text>{t("ThreatTerrorism.22")}</Text>
+                    <Text>{t("ThreatTerrorism.23")}</Text>
+                    <Text>{t("ThreatTerrorism.24")}</Text>
+                    <Text style={styles.ulText}>{t("ThreatTerrorism.25")}</Text>
+                    <Text style={styles.ulText}>{t("ThreatTerrorism.26")}</Text>
                 </View>
                 <Text style={styles.textSuccess}>
-                    Окажите психологическую поддержку старым людям, больным, детям.
+                    {t("ThreatTerrorism.27")}
                 </Text>
                 <Text style={styles.textSuccess}>
-                    ТЕЛЕФОН СЛУЖБЫ СПАСЕНИЯ: 112
+                    {t("ThreatTerrorism.28")}
                 </Text>
             </ScrollView>
         </View>
