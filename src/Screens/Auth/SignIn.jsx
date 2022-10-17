@@ -16,6 +16,7 @@ import {signed, signedError} from "../../store/Slice/signInSlice";
 import {signInService} from "../../services/auth/signIn.service";
 import {HelperText, Snackbar} from "react-native-paper";
 import Icon from "react-native-vector-icons/Ionicons";
+import {useTranslation} from "react-i18next";
 
 export default function SignIn({navigation}) {
     const dispatch = useDispatch();
@@ -35,6 +36,7 @@ export default function SignIn({navigation}) {
         }
 
     };
+    const {t} = useTranslation();
     const saveToken = async (key, value) => {
         const tokenItem = await AsyncStorage.setItem(key, value)
         setToken(tokenItem)
@@ -80,8 +82,8 @@ export default function SignIn({navigation}) {
                 // colors={['#a1c4fd', '#c2e9fb']}
                 style={styles.container}
             >
-                <Text style={styles.welcomeText}>Добро пожаловать!</Text>
-                <Text style={styles.loginText}>Войти</Text>
+                <Text style={styles.welcomeText}>{t("LogIn.welcome")}</Text>
+                <Text style={styles.loginText}>{t("LogIn.title")}</Text>
                 <HelperText type="error" visible={hasErrors()}> {message}</HelperText>
                 <View style={{
                     position: 'absolute',
@@ -110,7 +112,7 @@ export default function SignIn({navigation}) {
                     defaultValue={credintials.email}
                     onChangeText={newText => emailChange(newText)}
                     style={styles.input}
-                    placeholder='Email-адрес'
+                    placeholder={t("LogIn.email")}
                     placeholderTextColor='white'
                     autoCorrect={true}
                     autoCapitalize={false}
@@ -122,7 +124,7 @@ export default function SignIn({navigation}) {
                     <TextInput
                         defaultValue={credintials.password}
                         onChangeText={newPassword => passwordChange(newPassword)}
-                        placeholder='Пароль'
+                        placeholder={t("LogIn.password")}
                         placeholderTextColor='white'
                         style={styles.input}
                         secureTextEntry={!showPassword}
@@ -138,16 +140,16 @@ export default function SignIn({navigation}) {
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
-                    <Text style={styles.fpText}>Забыли пароль?</Text>
+                    <Text style={styles.fpText}>{t("LogIn.forgot")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-                    <Text style={styles.loginButtonText}>Войти</Text>
+                    <Text style={styles.loginButtonText}>{t("LogIn.btnLogin")}</Text>
                 </TouchableOpacity>
                 <View style={styles.signUpTextView}>
-                    <Text style={styles.signUpText}>У вас нет аккаунта? </Text>
+                    <Text style={styles.signUpText}>{t("LogIn.notHaveAccount")} </Text>
                     <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
                         <Text style={[styles.signUpText, {color: '#a1c4fd'}]}>
-                            Создать
+                            {t("LogIn.create")}
                         </Text>
                     </TouchableOpacity>
                 </View>

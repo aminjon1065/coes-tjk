@@ -6,6 +6,26 @@
       "LogIn": "Войти",
       "LogOut": "Выйти"
     },
+    "LogIn": {
+      "welcome": "Добро пожаловать!",
+      "title": "Войти",
+      "email": "Email-адрес",
+      "password": "Пароль",
+      "forgot": "Забыли пароль?",
+      "btnLogin": "Войти",
+      "notHaveAccount": "У вас нет аккаунта?",
+      "create": "создать"
+    },
+    "SignUp": {
+      "welcome": "Добро пожаловать!",
+      "title": "Зарегистрироваться",
+      "name": "Имя и Фамилия",
+      "email": "Email-адрес",
+      "password": "Пароль",
+      "photo": "Выбрать фото",
+      "delete": "удалить",
+      "btnRegister": "Регистрация"
+    },
     "HomeScreen": {
       "FirstBlock": {
         "WhatToDo": "Что делать?",

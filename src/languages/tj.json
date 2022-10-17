@@ -6,6 +6,26 @@
       "LogIn": "Даромад",
       "LogOut": "Баромад"
     },
+    "LogIn": {
+      "welcome": "Хуш омадед!",
+      "title": "Даромад",
+      "email": "Email-суроға",
+      "password": "Рамз",
+      "forgot": "Рамзро фаромуш кардед?",
+      "btnLogin": "Даромад",
+      "notHaveAccount": "Аккаунт надоред?",
+      "create": "сохтан"
+    },
+    "SignUp": {
+      "welcome": "Хуш омадед!",
+      "title": "Бақайдгирӣ",
+      "name": "Ному насаб",
+      "email": "Email-суроға",
+      "password": "Рамз",
+      "photo": "Интихоби сурат",
+      "delete": "Нест кардан",
+      "btnRegister": "Бақайдгирӣ"
+    },
     "HomeScreen": {
       "FirstBlock": {
         "WhatToDo": "Чи бояд кард?",

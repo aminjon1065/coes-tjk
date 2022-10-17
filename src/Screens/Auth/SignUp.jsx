@@ -13,6 +13,7 @@ import {ActivityIndicator, HelperText, Snackbar, Button} from "react-native-pape
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 import {BASE_URL} from "../../constant";
+import {useTranslation} from "react-i18next";
 
 export default function SignUp({navigation}) {
     const [selectedImage, setSelectedImage] = useState(false);
@@ -71,6 +72,7 @@ export default function SignUp({navigation}) {
         setSelectedImage(true)
     }
 
+    const {t}=useTranslation();
     const handleSubmit = async () => {
         setLoader(true)
         Keyboard.dismiss();
@@ -134,8 +136,8 @@ export default function SignUp({navigation}) {
                 style={styles.container}
             >
                 {/*<Text style={{...styles.loginText, color: "red"}}>Тестовый режим</Text>*/}
-                <Text style={styles.welcomeText}>Добро пожаловать!</Text>
-                <Text style={styles.loginText}>Зарегистрироваться</Text>
+                <Text style={styles.welcomeText}>{t("SignUp.welcome")}</Text>
+                <Text style={styles.loginText}>{t("SignUp.title")}</Text>
                 <HelperText type="error" visible={false}> Введите корректный email-адрес</HelperText>
                 <View style={{
                     position: 'absolute',
@@ -175,7 +177,7 @@ export default function SignUp({navigation}) {
                     defaultValue={name}
                     onChangeText={newText => nameChange(newText)}
                     style={styles.input}
-                    placeholder='Имя и Фамилия'
+                    placeholder={t("SignUp.name")}
                     placeholderTextColor='#808e9b'
                     autoCorrect={true}
                     autoCapitalize={false}
@@ -187,7 +189,7 @@ export default function SignUp({navigation}) {
                     defaultValue={email}
                     onChangeText={newText => emailChange(newText)}
                     style={styles.input}
-                    placeholder='Email-адрес'
+                    placeholder={t("SignUp.email")}
                     placeholderTextColor='#808e9b'
                     autoCorrect={true}
                     autoCapitalize={false}
@@ -198,7 +200,7 @@ export default function SignUp({navigation}) {
                 <TextInput
                     defaultValue={password}
                     onChangeText={newPassword => passwordChange(newPassword)}
-                    placeholder='Пароль'
+                    placeholder={t("SignUp.password")}
                     placeholderTextColor='#808e9b'
                     style={styles.input}
                     secureTextEntry={hidePassword}
@@ -208,7 +210,7 @@ export default function SignUp({navigation}) {
                     !selectedImage
                         ?
                         <Button onPress={selectAvatar} textColor={"green"}>
-                            Выбрать фото
+                            {t("SignUp.photo")}
                         </Button>
                         :
                         null
@@ -216,14 +218,14 @@ export default function SignUp({navigation}) {
                 {image.uri && <Image source={{uri: image.uri}}
                                      style={{width: "100%", height: "20%", marginTop: 10, borderRadius: 10}}/>}
                 {image.uri &&
-                    <Button icon={"delete"} textColor={"red"} mode={"text"} onPress={imageDelete}>Delete</Button>}
+                    <Button icon={"delete"} textColor={"red"} mode={"text"} onPress={imageDelete}>{t("SignUp.delete")}</Button>}
                 <TouchableOpacity onPress={() => {
                     console.log("click")
                 }}>
                     {/*<Text style={styles.fpText}>Забыли пароль?</Text>*/}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-                    <Text style={styles.loginButtonText}>Регистрация {loader ?
+                    <Text style={styles.loginButtonText}>{t("SignUp.btnRegister")} {loader ?
                         <ActivityIndicator animating={loader} size="small"
                                            color="#00ff00"/> : null}</Text>
                 </TouchableOpacity>
