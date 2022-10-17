@@ -70,7 +70,6 @@ const CustomDrawer = (props) => {
                             value={lang}
                             onValueChange={setLang}
                             density="small"
-
                         />
                     </View>
                     <View

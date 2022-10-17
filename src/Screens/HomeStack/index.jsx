@@ -5,6 +5,7 @@ import WhatToDo from "../WhatToDo";
 import CoESRecommended from "./CoESRecommended";
 import Terrorism from "./Terrorism";
 import Encyclopedia from "./Encyclopedia";
+import Laws from "./Laws";
 
 
 const Stack = createNativeStackNavigator();
@@ -19,7 +20,7 @@ const Index = () => {
                 <Stack.Screen name={"HomeScreen"} component={HomeScreen} options={{
                     headerShown: false
                 }}/>
-                <Stack.Screen name={"HomeScreenTest"} component={CoESRecommended} options={{
+                <Stack.Screen name={"CoESRecommended"} component={CoESRecommended} options={{
                     headerTitle: "КЧС рекомендует"
                 }}/>
                 <Stack.Screen name={"WhatToDo"} component={WhatToDo} options={{
@@ -30,6 +31,9 @@ const Index = () => {
                 }}/>
                 <Stack.Screen name={"encyclopedia"} component={Encyclopedia} options={{
                     headerTitle: "Энциклопедия"
+                }}/>
+                <Stack.Screen name={"laws"} component={Laws} options={{
+                    headerTitle: "Законы"
                 }}/>
             </Stack.Navigator>
         </>
