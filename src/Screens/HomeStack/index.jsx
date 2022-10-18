@@ -6,6 +6,7 @@ import CoESRecommended from "./CoESRecommended";
 import Terrorism from "./Terrorism";
 import Encyclopedia from "./Encyclopedia";
 import Laws from "./Laws";
+import Map from "./Map";
 
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,9 @@ const Index = () => {
                 }}/>
                 <Stack.Screen name={"WhatToDo"} component={WhatToDo} options={{
                     headerTitle: "Что делать"
+                }}/>
+                <Stack.Screen name={"map"} component={Map} options={{
+                    headerTitle: "Карта рисков"
                 }}/>
                 <Stack.Screen name={"terrorism"} component={Terrorism} options={{
                     headerTitle: "Угроза терроризма"

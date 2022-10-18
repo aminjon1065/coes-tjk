@@ -7,8 +7,11 @@ import {DrawerActions} from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
 import Weather from "../weather";
+import {useDispatch, useSelector} from "react-redux";
+import {locationSet} from "../../store/Slice/locationSlice";
 
 const Index = ({navigation}) => {
+    const dispatch = useDispatch();
     const [locationDevice, setLocationDevice] = useState({});
     const [errorMsg, setErrorMsg] = useState(null);
     const [isLoading, setLoading] = useState(true);
@@ -24,6 +27,7 @@ const Index = ({navigation}) => {
             }
             let location = await Location.getCurrentPositionAsync({});
             setLocationDevice(location.coords);
+            dispatch(locationSet(location.coords))
             getWeather(location.coords.latitude, location.coords.longitude)
         };
         const getWeather = async (latitude, longitude) => {
@@ -42,6 +46,8 @@ const Index = ({navigation}) => {
         }
         getLocation()
     }, []);
+    const selector = useSelector(state => state.locationDevice)
+    console.log(selector)
     return (
         <View style={styles.navbar}>
             <Button

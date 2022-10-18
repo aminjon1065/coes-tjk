@@ -33,7 +33,7 @@ const FirstBlock = ({navigation}) => {
                 <View style={styles.block}>
                     <TouchableOpacity
                         style={{alignItems: "center"}}
-                        onPress={() => console.log("Карта рисков")}
+                        onPress={() => navigation.navigate("map")}
                     >
                         <Icon name={"map-outline"} size={50} color={"#516395"}/>
                         <Text>
