@@ -61,7 +61,7 @@ const Index = () => {
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
-                                    onPress={() => console.log("RRP")}
+                                    onPress={showModal}
                                 />
                             }
                             if (feature.name === 'GBAO') {
