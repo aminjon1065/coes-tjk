@@ -27,7 +27,6 @@ const App = () => {
     const getLng = async () => {
         const storageLng = await AsyncStorage.getItem("lng");
         setLng(storageLng)
-        console.log(lng)
     }
     useEffect(() => {
         getLng()
