@@ -36,7 +36,7 @@ const Index = () => {
                 <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
-                    zoomEnabled={true}
+                    zoomEnabled={false}
                     minZoomLevel={5}  // default => 0
                     maxZoomLevel={15} // default => 20
                     initialRegion={{
@@ -68,7 +68,7 @@ const Index = () => {
                                 return <Geojson
                                     key={feature.id}
                                     geojson={insertedObject}
-                                    fillColor={'skyblue'}
+                                    fillColor={'rgba(39, 136, 245, 0.5)'}
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
