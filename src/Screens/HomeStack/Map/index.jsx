@@ -4,7 +4,7 @@ import MapView, {Callout, Geojson, Marker, PROVIDER_GOOGLE} from 'react-native-m
 import {useSelector} from "react-redux";
 import TJK from './TJK1.geo.json'
 import {Modal, Portal, Button, Provider} from 'react-native-paper';
-
+import Icon from "react-native-vector-icons/AntDesign";
 
 const Index = () => {
     const [emergency, setEmergency] = useState("");
@@ -36,7 +36,7 @@ const Index = () => {
                 <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
-                    zoomEnabled={false}
+                    zoomEnabled={true}
                     minZoomLevel={5}  // default => 0
                     maxZoomLevel={15} // default => 20
                     initialRegion={{
@@ -110,7 +110,7 @@ const Index = () => {
                 </MapView>
                 <View style={styles.btnContainer}>
                     <Portal>
-                        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle} style={styles.modal}>
                             {
                                 emergencies.map((item) =>
                                     <Button key={item.value} onPress={hideModal}>{item.title}</Button>
@@ -119,11 +119,10 @@ const Index = () => {
                             <Text>Example Modal. Click outside this area to dismiss.</Text>
                         </Modal>
                     </Portal>
-                    <Button style={{marginTop: 30}} onPress={showModal}>
-                        Show
+                    <Button style={styles.chooseEmerBtn} mode={"contained"} icon={"arrange-send-to-back"} onPress={showModal}>
+                        Choose emergency
                     </Button>
                 </View>
-
             </View>
         </Provider>
 
@@ -148,12 +147,18 @@ const styles = StyleSheet.create({
         // height:"10%",
         top: '5%',
         left: '1%',
-        width: '50%',
+        // width: '50%',
         alignSelf: 'flex-start',
-        backgroundColor: "rgba(8, 76, 136, 0.94)"
+        // backgroundColor: "rgba(39, 136, 245, 0.5)"
     },
     select: {
         color: "white",
         backgroundColor: "red"
+    },
+    modal:{
+        paddingHorizontal:50,
+    },
+    chooseEmerBtn:{
+        backgroundColor:"#336091"
     }
 });
