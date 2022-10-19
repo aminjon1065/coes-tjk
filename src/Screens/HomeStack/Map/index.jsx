@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Dimensions, Text} from "react-native";
+import {View, StyleSheet, Dimensions, Text, Image} from "react-native";
 import MapView, {Callout, Geojson, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector} from "react-redux";
 import TJK from './TJK1.geo.json'
 import {Modal, Portal, Button, Provider} from 'react-native-paper';
-import Icon from "react-native-vector-icons/AntDesign";
+import {useTranslation} from "react-i18next";
+import landslides from "./../../../assets/images/Emergencies/landslides.png";
+import avalanche from "./../../../assets/images/Emergencies/avalanche.png";
+import earthquakes from "./../../../assets/images/Emergencies/earthquake.png";
+import flood from "./../../../assets/images/Emergencies/flood.png";
 
 const Index = () => {
-    const [emergency, setEmergency] = useState("");
+    const [emergency, setEmergency] = useState({});
     const selector = useSelector(state => state.locationDevice)
     const [khatar, setKhatar] = useState("245, 39, 39, 0.5");
     const [miena, setMiena] = useState("245, 230, 39, 0.5");
@@ -19,15 +23,25 @@ const Index = () => {
     const containerStyle = {backgroundColor: 'white', padding: 20, borderRadius: 10};
     const chooseEmergency = (e) => {
         setEmergency(e)
+        hideModal()
     }
+    const {t} = useTranslation()
     const emergencies = [
         {
-            title: "Сел",
-            value: "flood"
+            title: t("EmergenciesList.landslides"),
+            value: "landslides"
         },
         {
-            title: "test1",
-            value: "Test1"
+            title: t("EmergenciesList.earthquake"),
+            value: "earthquake"
+        },
+        {
+            title: t("EmergenciesList.avalanche"),
+            value: "avalanche"
+        },
+        {
+            title: t("EmergenciesList.flood"),
+            value: "flood"
         }
     ]
     return (
@@ -113,22 +127,36 @@ const Index = () => {
                         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}
                                style={styles.modal}>
                             {
-                                emergencies.map((item) =>
-                                    <Button key={item.value} onPress={hideModal}>{item.title}</Button>
+                                emergencies.map((item, index) =>
+                                    <View key={item.value}
+                                          style={{width: "100%", flexDirection: "row", justifyContent: "center"}}>
+                                        <Button
+                                            key={item.value}
+                                            onPress={() => chooseEmergency(item)}>
+                                            {/*{index + 1})*/}
+                                            {item.title}
+                                        </Button>
+                                        {
+                                            item.value === "landslides" ?
+                                                <Image source={landslides}
+                                                       style={styles.emerImg}/> : item.value === "avalanche" ?
+                                                    <Image source={avalanche}
+                                                           style={styles.emerImg}/> : item.value === "earthquake" ?
+                                                        <Image source={earthquakes} style={styles.emerImg}/> :
+                                                        <Image source={flood} style={styles.emerImg}/>
+                                        }
+                                    </View>
                                 )
                             }
-                            <Text>Example Modal. Click outside this area to dismiss.</Text>
                         </Modal>
                     </Portal>
                     <Button style={styles.chooseEmerBtn} mode={"contained"} icon={"arrange-send-to-back"}
                             onPress={showModal}>
-                        Choose emergency
+                        {t("SelectEmergency")}
                     </Button>
                 </View>
             </View>
         </Provider>
-
-
     );
 };
 
@@ -170,7 +198,11 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-
         elevation: 5,
+    },
+    emerImg: {
+        width: 24,
+        height: 24,
+        alignSelf: "center"
     }
 });

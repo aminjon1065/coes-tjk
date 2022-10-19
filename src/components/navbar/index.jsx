@@ -47,7 +47,6 @@ const Index = ({navigation}) => {
         getLocation()
     }, []);
     const selector = useSelector(state => state.locationDevice)
-    console.log(selector)
     return (
         <View style={styles.navbar}>
             <Button
