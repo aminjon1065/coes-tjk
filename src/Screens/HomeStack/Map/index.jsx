@@ -16,7 +16,7 @@ const Index = () => {
     const [visible, setVisible] = React.useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const containerStyle = {backgroundColor: 'white', padding: 20};
+    const containerStyle = {backgroundColor: 'white', padding: 20, borderRadius: 10};
     const chooseEmergency = (e) => {
         setEmergency(e)
     }
@@ -110,7 +110,8 @@ const Index = () => {
                 </MapView>
                 <View style={styles.btnContainer}>
                     <Portal>
-                        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle} style={styles.modal}>
+                        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}
+                               style={styles.modal}>
                             {
                                 emergencies.map((item) =>
                                     <Button key={item.value} onPress={hideModal}>{item.title}</Button>
@@ -119,7 +120,8 @@ const Index = () => {
                             <Text>Example Modal. Click outside this area to dismiss.</Text>
                         </Modal>
                     </Portal>
-                    <Button style={styles.chooseEmerBtn} mode={"contained"} icon={"arrange-send-to-back"} onPress={showModal}>
+                    <Button style={styles.chooseEmerBtn} mode={"contained"} icon={"arrange-send-to-back"}
+                            onPress={showModal}>
                         Choose emergency
                     </Button>
                 </View>
@@ -155,10 +157,20 @@ const styles = StyleSheet.create({
         color: "white",
         backgroundColor: "red"
     },
-    modal:{
-        paddingHorizontal:50,
+    modal: {
+        paddingHorizontal: 50,
     },
-    chooseEmerBtn:{
-        backgroundColor:"#336091"
+    chooseEmerBtn: {
+        backgroundColor: "#336091",
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     }
 });
