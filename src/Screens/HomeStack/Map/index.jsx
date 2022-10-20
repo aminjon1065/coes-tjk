@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions, Text, Image} from "react-native";
 import MapView, {Callout, Geojson, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector} from "react-redux";
-import TJK from './TJK1.geo.json'
+import TJK from './geoBoundaries-TJK-ADM1.geo.json'
 import {Modal, Portal, Button, Provider} from 'react-native-paper';
 import {useTranslation} from "react-i18next";
 import landslides from "./../../../assets/images/Emergencies/landslides.png";
@@ -50,37 +50,38 @@ const Index = () => {
                 <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
-                    zoomEnabled={false}
+                    zoomEnabled={true}
                     minZoomLevel={5}  // default => 0
                     maxZoomLevel={15} // default => 20
                     initialRegion={{
-                        latitude: selector.latitude ? 38.874655 : 37.78825,
-                        longitude: selector.longitude ? 70.978313 : -122.4324,
+                        latitude: 38.874655,
+                        // latitude: selector.latitude ? selector.latitude : 38.874655,
+                        // longitude: selector.longitude ? selector.longitude : 70.978313,
+                        longitude: 70.978313,
                         // latitudeDelta: 0.0922,
                         latitudeDelta: 12,
                         // longitudeDelta: 0.0421,
                         longitudeDelta: 5,
-
                     }}>
                     {
-                        TJK.features.map(feature => {
+                        TJK.features.map((feature, index) => {
                             const insertedObject = {
                                 features: [feature]
                             };
-                            if (feature.name === 'RRP') {
+                            if (feature.properties.shapeName === 'RRP') {
                                 return <Geojson
-                                    key={feature.id}
+                                    key={index}
                                     geojson={insertedObject}
                                     fillColor={`rgba(${khatar})`}
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
-                                    onPress={showModal}
+                                    onPress={() => console.log("RRP")}
                                 />
                             }
-                            if (feature.name === 'GBAO') {
+                            if (feature.properties.shapeName === 'GBAO') {
                                 return <Geojson
-                                    key={feature.id}
+                                    key={index}
                                     geojson={insertedObject}
                                     fillColor={'rgba(39, 136, 245, 0.5)'}
                                     strokeColor="#3949ab"
@@ -89,9 +90,9 @@ const Index = () => {
                                     onPress={() => console.log("GBAO")}
                                 />
                             }
-                            if (feature.name === 'KHATLON') {
+                            if (feature.properties.shapeName === 'KHATLON') {
                                 return <Geojson
-                                    key={feature.id}
+                                    key={index}
                                     geojson={insertedObject}
                                     fillColor={'rgba(121, 22, 62, 0.4)'}
                                     strokeColor="#3949ab"
@@ -100,9 +101,9 @@ const Index = () => {
                                     onPress={() => console.log("KHATLON")}
                                 />
                             }
-                            if (feature.name === 'SUGD') {
+                            if (feature.properties.shapeName === 'SUGD') {
                                 return <Geojson
-                                    key={feature.id}
+                                    key={index}
                                     geojson={insertedObject}
                                     fillColor={`rgba(${miena})`}
                                     strokeColor="#3949ab"
@@ -111,8 +112,19 @@ const Index = () => {
                                     onPress={() => console.log("SUGD")}
                                 />
                             }
+                            if (feature.properties.shapeName === 'DUSHANBE') {
+                                return <Geojson
+                                    key={index}
+                                    geojson={insertedObject}
+                                    fillColor={`rgba(${miena})`}
+                                    strokeColor="#3949ab"
+                                    strokeWidth={2}
+                                    tappable
+                                    onPress={() => console.log("DUSHANBE")}
+                                />
+                            }
                             return <Geojson
-                                key={feature.id}
+                                key={index}
                                 geojson={insertedObject}
                                 fillColor={'red'}
                                 strokeColor="#3949ab"
