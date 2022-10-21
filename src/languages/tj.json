@@ -105,6 +105,13 @@
       "landslides": "Ярч",
       "avalanche": "Тарма",
       "flood": "Сел"
+    },
+    "Districts": {
+      "DUSHANBE": "Душанбе",
+      "GBAO": "ВМКБ",
+      "SUGD": "Суғд",
+      "RRP": "НТҶ",
+      "KHATLON": "Хатлон"
     }
   }
 }

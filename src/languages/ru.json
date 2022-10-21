@@ -136,6 +136,13 @@
       "landslides": "Оползни",
       "avalanche": "Лавина",
       "flood": "Наводнение"
+    },
+    "Districts": {
+      "DUSHANBE": "Душанбе",
+      "GBAO": "ГБАО",
+      "SUGD": "Согд",
+      "RRP": "РРП",
+      "KHATLON": "Хатлон"
     }
   }
 }

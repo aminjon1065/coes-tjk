@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Dimensions, Text, Image} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Dimensions, Text, Image, ActivityIndicator} from "react-native";
 import MapView, {Callout, Geojson, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector} from "react-redux";
 import TJK from './geoBoundaries-TJK-ADM1.geo.json'
@@ -9,28 +9,34 @@ import landslides from "./../../../assets/images/Emergencies/landslides.png";
 import avalanche from "./../../../assets/images/Emergencies/avalanche.png";
 import earthquakes from "./../../../assets/images/Emergencies/earthquake.png";
 import flood from "./../../../assets/images/Emergencies/flood.png";
+import {apiRequest} from "../../../helper/apiRequest";
+import ModalData from "./ModalData";
 
 const Index = () => {
-    const [dushanbe, setDushanbe] = useState("");
-    const [sugd, setSugd] = useState("");
-    const [katlonColor, setKatlonColor] = useState("");
-    const [gbao, setGbao] = useState("");
-    const [rrp, setRrp] = useState("");
-    const [emergency, setEmergency] = useState({});
+    const [district, setDistrict] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [emergency, setEmergency] = useState("flood");
+    const [countEmer, setCountEmer] = useState(null);
     const selector = useSelector(state => state.locationDevice)
-    const [khatar, setKhatar] = useState("245, 39, 39, 0.5");
-    const [miena, setMiena] = useState("245, 230, 39, 0.5");
-    const [none, setNone] = useState("245, 230, 39, 0");
-    const [kam, setKam] = useState("rgba(51, 225, 107, 0.5)");
-    const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = React.useState(false);
+    const [visibleDistrict, setVisibleDistrict] = React.useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
+    const modalDistrict = (e) => {
+        setVisibleDistrict(true);
+        setDistrict(e)
+    }
+    // const showModalDistrict = () => setVisibleDistrict(true);
+    const hideModalDistrict = () => setVisibleDistrict(false);
+    const districtTitle = (e) => setDistrict(e)
     const containerStyle = {backgroundColor: 'white', padding: 20, borderRadius: 10};
     const chooseEmergency = (e) => {
+        setLoading(true)
         setEmergency(e)
+        setLoading(false)
         hideModal()
     }
+
     const {t} = useTranslation()
     const emergencies = [
         {
@@ -51,132 +57,113 @@ const Index = () => {
         }
     ]
 
-
-    const countEmer =
-        [
-            {
-                district: "SUGD",
-                count: 7
-            },
-            {
-                district: "GBAO",
-                count: 9
-            },
-            {
-                district: "RRP",
-                count: 5
-            },
-            {
-                district: "KHATLON",
-                count: 8
-            },
-            {
-                district: "DUSHANBE",
-                count: 2
-            }
-        ];
-
-    countEmer.sort((a, b) => (b.count > a.count) ? -1 : 0)
-    console.log(countEmer)
-    const sumEmer = countEmer.reduce(function (previousValue, currentValue) {
-        return previousValue + currentValue.count
-    }, 0);
-
-    // for (let i = 0; i < 5; i++) {
-
-    // }
-
+    useEffect(() => {
+        const getEmerFN = async () => {
+            await apiRequest.get(`/emergencies/${emergency}`).then((response) => {
+                setCountEmer(response.data)
+                setLoading(false)
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+        getEmerFN();
+    }, [emergency]);
     return (
         <Provider>
             <View style={styles.container}>
-                <MapView
-                    provider={PROVIDER_GOOGLE}
-                    style={styles.map}
-                    zoomEnabled={true}
-                    minZoomLevel={5}  // default => 0
-                    maxZoomLevel={15} // default => 20
-                    initialRegion={{
-                        latitude: 38.874655,
-                        // latitude: selector.latitude ? selector.latitude : 38.874655,
-                        // longitude: selector.longitude ? selector.longitude : 70.978313,
-                        longitude: 70.978313,
-                        // latitudeDelta: 0.0922,
-                        latitudeDelta: 12,
-                        // longitudeDelta: 0.0421,
-                        longitudeDelta: 5,
-                    }}>
-                    {
-                        TJK.features.map((feature, index) => {
-                            const insertedObject = {
-                                features: [feature]
-                            };
-                            if (feature.properties.shapeName === countEmer[0].district)
+                {
+                    loading
+                        ?
+                        <ActivityIndicator/>
+                        :
+                        <MapView
+                            provider={PROVIDER_GOOGLE}
+                            style={styles.map}
+                            zoomEnabled={true}
+                            minZoomLevel={5}  // default => 0
+                            maxZoomLevel={15} // default => 20
+                            initialRegion={{
+                                latitude: 38.874655,
+                                // latitude: selector.latitude ? selector.latitude : 38.874655,
+                                // longitude: selector.longitude ? selector.longitude : 70.978313,
+                                longitude: 70.978313,
+                                // latitudeDelta: 0.0922,
+                                latitudeDelta: 12,
+                                // longitudeDelta: 0.0421,
+                                longitudeDelta: 5,
+                            }}>
                             {
-                                return <Geojson
-                                    key={index}
-                                    geojson={insertedObject}
-                                    fillColor={`rgba(63, 241, 106, 0.5)`}
-                                    strokeColor="#3949ab"
-                                    strokeWidth={2}
-                                    tappable
-                                    onPress={() => console.log(countEmer[index].district)}
-                                />
+                                TJK.features.map((feature, index) => {
+                                    const insertedObject = {
+                                        features: [feature]
+                                    };
+                                    if (feature.properties.shapeName === countEmer[0].district) {
+                                        return <Geojson
+                                            key={index}
+                                            geojson={insertedObject}
+                                            fillColor={`rgba(63, 241, 106, 0.5)`}
+                                            strokeColor="#3949ab"
+                                            strokeWidth={2}
+                                            tappable
+                                            onPress={() => modalDistrict(countEmer[0])}
+                                        />
+                                    }
+                                    if (feature.properties.shapeName === countEmer[1].district) {
+                                        return <Geojson
+                                            key={index}
+                                            geojson={insertedObject}
+                                            fillColor={'rgba(139, 241, 63, 0.5)'}
+                                            strokeColor="#3949ab"
+                                            strokeWidth={2}
+                                            tappable
+                                            onPress={() => modalDistrict(countEmer[1])}
+                                        />
+                                    }
+                                    if (feature.properties.shapeName === countEmer[2].district) {
+                                        return <Geojson
+                                            key={index}
+                                            geojson={insertedObject}
+                                            fillColor={'rgba(220, 241, 63, 0.5)'}
+                                            strokeColor="#3949ab"
+                                            strokeWidth={2}
+                                            tappable
+                                            onPress={() => modalDistrict(countEmer[2])}
+                                        />
+                                    }
+                                    if (feature.properties.shapeName === countEmer[3].district) {
+                                        return <Geojson
+                                            key={index}
+                                            geojson={insertedObject}
+                                            fillColor={`rgba(241, 158, 63, 0.5)`}
+                                            strokeColor="#3949ab"
+                                            strokeWidth={2}
+                                            tappable
+                                            onPress={() => modalDistrict(countEmer[3])}
+                                        />
+                                    }
+                                    if (feature.properties.shapeName === countEmer[4].district) {
+                                        return <Geojson
+                                            key={index}
+                                            geojson={insertedObject}
+                                            fillColor={`rgba(241, 65, 63, 0.5)`}
+                                            strokeColor="#3949ab"
+                                            strokeWidth={2}
+                                            tappable
+                                            onPress={() => modalDistrict(countEmer[4])}
+                                        />
+                                    }
+                                    return <Geojson
+                                        key={index}
+                                        geojson={insertedObject}
+                                        fillColor={'red'}
+                                        strokeColor="#3949ab"
+                                        strokeWidth={2}
+                                    />
+                                })
                             }
-                            if (feature.properties.shapeName ===countEmer[1].district ) {
-                                return <Geojson
-                                    key={index}
-                                    geojson={insertedObject}
-                                    fillColor={'rgba(139, 241, 63, 0.5)'}
-                                    strokeColor="#3949ab"
-                                    strokeWidth={2}
-                                    tappable
-                                    onPress={() => console.log(countEmer[index].district)}
-                                />
-                            }
-                            if (feature.properties.shapeName===countEmer[2].district) {
-                                return <Geojson
-                                    key={index}
-                                    geojson={insertedObject}
-                                    fillColor={'rgba(220, 241, 63, 0.5)'}
-                                    strokeColor="#3949ab"
-                                    strokeWidth={2}
-                                    tappable
-                                    onPress={() => console.log(countEmer[index].district)}
-                                />
-                            }
-                            if (feature.properties.shapeName === countEmer[3].district) {
-                                return <Geojson
-                                    key={index}
-                                    geojson={insertedObject}
-                                    fillColor={`rgba(241, 158, 63, 0.5)`}
-                                    strokeColor="#3949ab"
-                                    strokeWidth={2}
-                                    tappable
-                                    onPress={() => console.log("SUGD")}
-                                />
-                            }
-                            if (feature.properties.shapeName === countEmer[4].district) {
-                                return <Geojson
-                                    key={index}
-                                    geojson={insertedObject}
-                                    fillColor={`rgba(241, 65, 63, 0.5)`}
-                                    strokeColor="#3949ab"
-                                    strokeWidth={2}
-                                    tappable
-                                    onPress={() => console.log("DUSHANBE")}
-                                />
-                            }
-                            return <Geojson
-                                key={index}
-                                geojson={insertedObject}
-                                fillColor={'red'}
-                                strokeColor="#3949ab"
-                                strokeWidth={2}
-                            />
-                        })
-                    }
-                    {/*<TJKMap/>*/}
-                </MapView>
+                        </MapView>
+                }
+                <ModalData hideModal={hideModalDistrict} visible={visibleDistrict} district={district}/>
                 <View style={styles.btnContainer}>
                     <Portal>
                         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}
@@ -187,7 +174,7 @@ const Index = () => {
                                           style={{width: "100%", flexDirection: "row", justifyContent: "center"}}>
                                         <Button
                                             key={item.value}
-                                            onPress={() => chooseEmergency(item)}>
+                                            onPress={() => chooseEmergency(item.value)}>
                                             {/*{index + 1})*/}
                                             {item.title}
                                         </Button>
