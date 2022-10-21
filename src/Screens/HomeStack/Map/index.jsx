@@ -11,11 +11,17 @@ import earthquakes from "./../../../assets/images/Emergencies/earthquake.png";
 import flood from "./../../../assets/images/Emergencies/flood.png";
 
 const Index = () => {
+    const [dushanbe, setDushanbe] = useState("");
+    const [sugd, setSugd] = useState("");
+    const [katlonColor, setKatlonColor] = useState("");
+    const [gbao, setGbao] = useState("");
+    const [rrp, setRrp] = useState("");
     const [emergency, setEmergency] = useState({});
     const selector = useSelector(state => state.locationDevice)
     const [khatar, setKhatar] = useState("245, 39, 39, 0.5");
     const [miena, setMiena] = useState("245, 230, 39, 0.5");
     const [none, setNone] = useState("245, 230, 39, 0");
+    const [kam, setKam] = useState("rgba(51, 225, 107, 0.5)");
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = React.useState(false);
     const showModal = () => setVisible(true);
@@ -44,6 +50,42 @@ const Index = () => {
             value: "flood"
         }
     ]
+
+
+    const countEmer =
+        [
+            {
+                district: "SUGD",
+                count: 7
+            },
+            {
+                district: "GBAO",
+                count: 9
+            },
+            {
+                district: "RRP",
+                count: 5
+            },
+            {
+                district: "KHATLON",
+                count: 8
+            },
+            {
+                district: "DUSHANBE",
+                count: 2
+            }
+        ];
+
+    countEmer.sort((a, b) => (b.count > a.count) ? -1 : 0)
+    console.log(countEmer)
+    const sumEmer = countEmer.reduce(function (previousValue, currentValue) {
+        return previousValue + currentValue.count
+    }, 0);
+
+    // for (let i = 0; i < 5; i++) {
+
+    // }
+
     return (
         <Provider>
             <View style={styles.container}>
@@ -68,55 +110,56 @@ const Index = () => {
                             const insertedObject = {
                                 features: [feature]
                             };
-                            if (feature.properties.shapeName === 'RRP') {
+                            if (feature.properties.shapeName === countEmer[0].district)
+                            {
                                 return <Geojson
                                     key={index}
                                     geojson={insertedObject}
-                                    fillColor={`rgba(${khatar})`}
+                                    fillColor={`rgba(63, 241, 106, 0.5)`}
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
-                                    onPress={() => console.log("RRP")}
+                                    onPress={() => console.log(countEmer[index].district)}
                                 />
                             }
-                            if (feature.properties.shapeName === 'GBAO') {
+                            if (feature.properties.shapeName ===countEmer[1].district ) {
                                 return <Geojson
                                     key={index}
                                     geojson={insertedObject}
-                                    fillColor={'rgba(39, 136, 245, 0.5)'}
+                                    fillColor={'rgba(139, 241, 63, 0.5)'}
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
-                                    onPress={() => console.log("GBAO")}
+                                    onPress={() => console.log(countEmer[index].district)}
                                 />
                             }
-                            if (feature.properties.shapeName === 'KHATLON') {
+                            if (feature.properties.shapeName===countEmer[2].district) {
                                 return <Geojson
                                     key={index}
                                     geojson={insertedObject}
-                                    fillColor={'rgba(121, 22, 62, 0.4)'}
+                                    fillColor={'rgba(220, 241, 63, 0.5)'}
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
-                                    onPress={() => console.log("KHATLON")}
+                                    onPress={() => console.log(countEmer[index].district)}
                                 />
                             }
-                            if (feature.properties.shapeName === 'SUGD') {
+                            if (feature.properties.shapeName === countEmer[3].district) {
                                 return <Geojson
                                     key={index}
                                     geojson={insertedObject}
-                                    fillColor={`rgba(${miena})`}
+                                    fillColor={`rgba(241, 158, 63, 0.5)`}
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
                                     onPress={() => console.log("SUGD")}
                                 />
                             }
-                            if (feature.properties.shapeName === 'DUSHANBE') {
+                            if (feature.properties.shapeName === countEmer[4].district) {
                                 return <Geojson
                                     key={index}
                                     geojson={insertedObject}
-                                    fillColor={`rgba(${miena})`}
+                                    fillColor={`rgba(241, 65, 63, 0.5)`}
                                     strokeColor="#3949ab"
                                     strokeWidth={2}
                                     tappable
@@ -151,10 +194,20 @@ const Index = () => {
                                         {
                                             item.value === "landslides" ?
                                                 <Image source={landslides}
-                                                       style={styles.emerImg}/> : item.value === "avalanche" ?
-                                                    <Image source={avalanche}
-                                                           style={styles.emerImg}/> : item.value === "earthquake" ?
-                                                        <Image source={earthquakes} style={styles.emerImg}/> :
+                                                       style={styles.emerImg}
+                                                />
+                                                :
+                                                item.value === "avalanche"
+                                                    ?
+                                                    <Image
+                                                        source={avalanche}
+                                                        style={styles.emerImg}
+                                                    />
+                                                    :
+                                                    item.value === "earthquake"
+                                                        ?
+                                                        <Image source={earthquakes} style={styles.emerImg}/>
+                                                        :
                                                         <Image source={flood} style={styles.emerImg}/>
                                         }
                                     </View>
