@@ -202,10 +202,18 @@ const Index = () => {
                             }
                         </Modal>
                     </Portal>
-                    <Button style={styles.chooseEmerBtn} mode={"contained"} icon={"arrange-send-to-back"}
-                            onPress={showModal}>
+                    <Button
+                        style={styles.chooseEmerBtn}
+                        mode={"contained"}
+                        icon={"arrange-send-to-back"}
+                        onPress={showModal}
+                    >
                         {t("SelectEmergency")}
                     </Button>
+                    <View style={styles.selectedContainer}>
+                        <Text style={styles.titleEmergency}>{t("SelectedEmergency")}: </Text>
+                        <Text style={styles.selectedEmergency}>{t(`EmergenciesList.${emergency}`)}</Text>
+                    </View>
                 </View>
             </View>
         </Provider>
@@ -256,5 +264,24 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
         alignSelf: "center"
+    },
+    selectedContainer: {
+        flex: 1,
+        flexDirection:"row",
+        justifyContent: "space-around",
+        backgroundColor:"#336091",
+        borderRadius:5,
+        marginTop:5
+    },
+    selectedEmergency: {
+        backgroundColor: "#c20859",
+        color: "white",
+        borderRadius: 5,
+        textAlign: "center"
+    },
+    titleEmergency: {
+        color: "white",
+        // backgroundColor:"#336091",
+        borderRadius:4
     }
 });
