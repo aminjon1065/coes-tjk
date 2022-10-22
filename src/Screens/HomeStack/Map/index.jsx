@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Dimensions, Text, Image, ActivityIndicator} from "react-native";
-import MapView, {Callout, Geojson, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {useSelector} from "react-redux";
+import MapView, {Geojson, PROVIDER_GOOGLE} from 'react-native-maps';
 import TJK from './geoBoundaries-TJK-ADM1.geo.json'
 import {Modal, Portal, Button, Provider} from 'react-native-paper';
 import {useTranslation} from "react-i18next";
@@ -17,7 +16,6 @@ const Index = () => {
     const [loading, setLoading] = useState(true);
     const [emergency, setEmergency] = useState("flood");
     const [countEmer, setCountEmer] = useState(null);
-    const selector = useSelector(state => state.locationDevice)
     const [visible, setVisible] = React.useState(false);
     const [visibleDistrict, setVisibleDistrict] = React.useState(false);
     const showModal = () => setVisible(true);
@@ -84,12 +82,8 @@ const Index = () => {
                             maxZoomLevel={15} // default => 20
                             initialRegion={{
                                 latitude: 38.874655,
-                                // latitude: selector.latitude ? selector.latitude : 38.874655,
-                                // longitude: selector.longitude ? selector.longitude : 70.978313,
                                 longitude: 70.978313,
-                                // latitudeDelta: 0.0922,
                                 latitudeDelta: 12,
-                                // longitudeDelta: 0.0421,
                                 longitudeDelta: 5,
                             }}>
                             {
@@ -208,12 +202,9 @@ const Index = () => {
                         icon={"arrange-send-to-back"}
                         onPress={showModal}
                     >
-                        {t("SelectEmergency")}
+                        {t("SelectEmergency")}: <Text
+                        style={styles.selectedEmergency}>{t(`EmergenciesList.${emergency}`)}</Text>
                     </Button>
-                    <View style={styles.selectedContainer}>
-                        <Text style={styles.titleEmergency}>{t("SelectedEmergency")}: </Text>
-                        <Text style={styles.selectedEmergency}>{t(`EmergenciesList.${emergency}`)}</Text>
-                    </View>
                 </View>
             </View>
         </Provider>
@@ -234,12 +225,9 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         position: 'absolute',
-        // height:"10%",
         top: '5%',
         left: '1%',
-        // width: '50%',
         alignSelf: 'flex-start',
-        // backgroundColor: "rgba(39, 136, 245, 0.5)"
     },
     select: {
         color: "white",
@@ -267,21 +255,20 @@ const styles = StyleSheet.create({
     },
     selectedContainer: {
         flex: 1,
-        flexDirection:"row",
+        flexDirection: "row",
         justifyContent: "space-around",
-        backgroundColor:"#336091",
-        borderRadius:5,
-        marginTop:5
+        backgroundColor: "#336091",
+        borderRadius: 5,
+        marginTop: 5
     },
     selectedEmergency: {
-        backgroundColor: "#c20859",
-        color: "white",
+        color: "#f88f3c",
         borderRadius: 5,
-        textAlign: "center"
+        textAlign: "center",
+        paddingHorizontal: 5
     },
     titleEmergency: {
         color: "white",
-        // backgroundColor:"#336091",
-        borderRadius:4
+        borderRadius: 4
     }
 });
