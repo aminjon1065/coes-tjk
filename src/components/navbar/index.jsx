@@ -82,10 +82,10 @@ export default Index;
 
 const styles = StyleSheet.create({
     ios:{
-        marginTop:50,
+        marginTop:"12%",
         flexDirection: "row",
         // backgroundColor: "#3949ab",
-        backgroundColor: "red",
+        backgroundColor: "#333333",
         height: 70,
         paddingBottom: 10,
         padding: 10,
