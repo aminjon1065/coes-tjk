@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, ActivityIndicator, Platform} from 'react-native';
 import logo from './../../assets/images/logo.png'
 import {Button, FAB} from "react-native-paper";
 // import {Linking} from 'react-native'
@@ -48,7 +48,7 @@ const Index = ({navigation}) => {
     }, []);
     const selector = useSelector(state => state.locationDevice)
     return (
-        <View style={styles.navbar}>
+        <View style={Platform.OS==="ios" ? styles.ios : styles.navbar}>
             <Button
                 textColor={"white"}
                 onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
@@ -71,7 +71,9 @@ const Index = ({navigation}) => {
                 }
             </View>
             {/*<StatusBar animated={true} backgroundColor="#3949ab" barStyle="light-content"/>*/}
-            <StatusBar backgroundColor={"black"} barStyle={"light-content"}/>
+            {
+                Platform.OS==="ios" ?  <StatusBar backgroundColor={"light"} barStyle={"dark-content"}/> : <StatusBar backgroundColor={"black"} barStyle={"light-content"}/>
+            }
         </View>
     );
 };
@@ -79,6 +81,25 @@ const Index = ({navigation}) => {
 export default Index;
 
 const styles = StyleSheet.create({
+    ios:{
+        marginTop:50,
+        flexDirection: "row",
+        // backgroundColor: "#3949ab",
+        backgroundColor: "red",
+        height: 70,
+        paddingBottom: 10,
+        padding: 10,
+        justifyContent: "space-between",
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: 4.65,
+        elevation: 4,
+    },
     navbar: {
         flexDirection: "row",
         // backgroundColor: "#3949ab",
