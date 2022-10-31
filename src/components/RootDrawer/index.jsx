@@ -6,7 +6,7 @@ import HomeStack from "../../Screens/HomeStack";
 import About from "../../Screens/About";
 import Icon from "react-native-vector-icons/Ionicons";
 import {useTranslation} from "react-i18next";
-import {ActivityIndicator, Image, TouchableOpacity, View, StyleSheet, Text} from "react-native";
+import {ActivityIndicator, Image, TouchableOpacity, View, StyleSheet, Text, StatusBar} from "react-native";
 import logo from "../../assets/images/logo.png";
 import {useDispatch} from "react-redux";
 import * as Location from "expo-location";
@@ -49,7 +49,6 @@ const Index = ({navigation}) => {
         }
         getLocation()
     }, []);
-    console.log(temperature)
     const  LogoTitle =()=> {
         return (
             <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
@@ -58,7 +57,6 @@ const Index = ({navigation}) => {
                     source={logo}
                 />
             </TouchableOpacity>
-
         );
     }
 
@@ -70,6 +68,7 @@ const Index = ({navigation}) => {
                     headerStyle:{
                         backgroundColor:"#336091"
                     },
+                    headerTintColor:"white",
                     headerShown: true,
                     headerTitleAlign: "center",
                     headerTitle: () => (
@@ -79,10 +78,12 @@ const Index = ({navigation}) => {
                         ?
                         <ActivityIndicator/>
                         :
-                        <View style={styles.weatherContainer}>
-                        <Weather temperature={temperature} condition={conditional}
-                                 error={errorMsg}/>
-                        </View>
+                            <TouchableOpacity onPress={() => navigation.navigate("weather")}>
+                                <View style={styles.weatherContainer}>
+                                    <Weather temperature={temperature} condition={conditional}
+                                             error={errorMsg}/>
+                                </View>
+                            </TouchableOpacity>
                     )
                 }}
                 drawerContent={props => <CustomDrawer {...props} />}
@@ -100,6 +101,7 @@ const Index = ({navigation}) => {
                     )
                 }}/>
             </Drawer.Navigator>
+            <StatusBar barStyle={"light-content"} backgroundColor={"#336091"} translucent={true} />
             <Number/>
         </>
     );

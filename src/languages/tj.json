@@ -120,9 +120,10 @@
     },
     "Locality": "Минтақа",
     "Type": "Намуд",
-    "Count": "Миқдор"
-
-
-
+    "Count": "Миқдор",
+    "Functionality": {
+      "back": "Қафо",
+      "weather": "Боду ҳаво"
+    }
   }
 }
