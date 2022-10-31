@@ -3,11 +3,11 @@ import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
 import FirstBlock from "../../../components/homeComponents/firstBlock";
 import {Divider} from "@rneui/base";
 import {useTranslation} from "react-i18next";
+import Navbar from "../../../components/navbar";
 
 
 const Index = ({navigation}) => {
     const {t} = useTranslation();
-
     return (
         <>
             <View>

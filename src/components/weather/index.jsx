@@ -61,14 +61,12 @@ const Index = ({error, condition, temperature}) => {
         text = `${Math.round(temperature)}°`;
     }
     return (
-        <>
             <View>
                 <Icon name={`${weatherOption[condition.main].iconName}`} style={styles.weatherIcon}/>
                 <Text style={styles.weatherText}>
                     {text}
                 </Text>
             </View>
-        </>
     );
 };
 

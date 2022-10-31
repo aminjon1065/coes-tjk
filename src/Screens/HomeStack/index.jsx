@@ -16,19 +16,21 @@ const Index = () => {
     return (
         <>
             <Stack.Navigator screenOptions={{
-                headerShown: false
+                headerShown: true
             }}>
                 <Stack.Screen name={"HomeScreen"} component={HomeScreen} options={{
                     headerShown: false
                 }}/>
                 <Stack.Screen name={"CoESRecommended"} component={CoESRecommended} options={{
-                    headerTitle: "КЧС рекомендует"
+                    headerTitle: "КЧС рекомендует",
+
                 }}/>
                 <Stack.Screen name={"WhatToDo"} component={WhatToDo} options={{
                     headerTitle: "Что делать"
                 }}/>
                 <Stack.Screen name={"map"} component={Map} options={{
-                    headerTitle: "Карта рисков"
+                    headerTitle: "Карта рисков",
+                    headerShown:false
                 }}/>
                 <Stack.Screen name={"terrorism"} component={Terrorism} options={{
                     headerTitle: "Угроза терроризма"
@@ -37,7 +39,9 @@ const Index = () => {
                     headerTitle: "Энциклопедия"
                 }}/>
                 <Stack.Screen name={"laws"} component={Laws} options={{
-                    headerTitle: "Законы"
+                    headerTitle: "Законы",
+                    headerShown:true,
+                    headerBackTitle:"Bc"
                 }}/>
             </Stack.Navigator>
         </>

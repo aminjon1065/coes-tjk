@@ -10,6 +10,7 @@ import {useDispatch} from "react-redux";
 import {isAuth, signedError} from "../store/Slice/signInSlice";
 import {apiRequest} from "../helper/apiRequest";
 import {useTranslation} from "react-i18next";
+import Navbar from "../components/navbar";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -60,7 +61,9 @@ const App = () => {
                     <Stack.Screen
                         name="Root"
                         component={RootDrawer}
-                        options={{headerShown: false}}
+                        options={{
+                            headerShown: false,
+                    }}
                     />
                     <Stack.Screen name={"SignIn"} component={SignIn}/>
                     <Stack.Screen name={"SignUp"} component={SignUp}/>

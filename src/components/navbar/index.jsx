@@ -71,9 +71,7 @@ const Index = ({navigation}) => {
                 }
             </View>
             {/*<StatusBar animated={true} backgroundColor="#3949ab" barStyle="light-content"/>*/}
-            {
-                Platform.OS==="ios" ?  <StatusBar backgroundColor={"light"} barStyle={"dark-content"}/> : <StatusBar backgroundColor={"black"} barStyle={"light-content"}/>
-            }
+            <StatusBar barStyle={"light-content"}/>
         </View>
     );
 };
@@ -82,13 +80,13 @@ export default Index;
 
 const styles = StyleSheet.create({
     ios:{
-        marginTop:"12%",
+        paddingTop:"10%",
         flexDirection: "row",
         // backgroundColor: "#3949ab",
         backgroundColor: "#333333",
-        height: 70,
-        paddingBottom: 10,
-        padding: 10,
+        height: "11%",
+        // paddingBottom: 10,
+        // padding: 10,
         justifyContent: "space-between",
         alignItems: "center",
         shadowColor: "#000",
