@@ -9,6 +9,8 @@ import Laws from "./Laws";
 import Map from "./Map";
 import Weather from "./Weather";
 import {useTranslation} from "react-i18next";
+import NavigationBar from "../../components/navbar/NavigationBar";
+
 const Stack = createNativeStackNavigator();
 const Index = () => {
     const {t} = useTranslation();
@@ -16,7 +18,8 @@ const Index = () => {
         <>
             <Stack.Navigator screenOptions={{
                 headerShown: true,
-                headerBackTitle:t('Functionality.back')
+                header: (props) => <NavigationBar {...props} />,
+                headerBackTitle: t('Functionality.back')
             }}>
                 <Stack.Screen name={"HomeScreen"} component={HomeScreen} options={{
                     headerShown: false
@@ -25,11 +28,11 @@ const Index = () => {
                     headerTitle: t('HomeScreen.CoESRecommended'),
                 }}/>
                 <Stack.Screen name={"WhatToDo"} component={WhatToDo} options={{
-                    headerTitle:t('HomeScreen.FirstBlock.WhatToDo')
+                    headerTitle: t('HomeScreen.FirstBlock.WhatToDo')
                 }}/>
                 <Stack.Screen name={"map"} component={Map} options={{
                     headerTitle: t('HomeScreen.FirstBlock.RiskMap'),
-                    headerShown:false
+                    headerShown: false
                 }}/>
                 <Stack.Screen name={"terrorism"} component={Terrorism} options={{
                     headerTitle: t('HomeScreen.terrorism.title')
