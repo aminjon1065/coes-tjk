@@ -7,6 +7,7 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     TouchableOpacity,
+
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Device from 'expo-device';

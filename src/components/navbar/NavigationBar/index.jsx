@@ -7,8 +7,6 @@ import {useTranslation} from "react-i18next";
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 const MyComponent = (props) => {
     const {t} = useTranslation();
-
-    console.log(props)
     return (
         <>
             <View style={styles.container}>
